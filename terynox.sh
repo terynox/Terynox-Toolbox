@@ -9,7 +9,7 @@ gl_huang='\033[33m'
 gl_lan='\033[34m'
 gl_bai='\033[0m'
 gl_zi='\033[35m'
-gl_kjlan='\033[96m'
+gl_Terynox='\033[96m'
 
 
 canshu="CN"
@@ -20,10 +20,10 @@ ENABLE_STATS="true"
 quanju_canshu() {
 if [ "$canshu" = "CN" ]; then
 	zhushi=0
-	gh_proxy="https://gh.kejilion.pro/"
+	gh_proxy="https://gh.terynox.pro/"
 elif [ "$canshu" = "V6" ]; then
 	zhushi=1
-	gh_proxy="https://gh.kejilion.pro/"
+	gh_proxy="https://gh.terynox.pro/"
 else
 	zhushi=1  # 0 表示执行，1 表示不执行
 	gh_proxy="https://"
@@ -44,14 +44,14 @@ run_command() {
 
 canshu_v6() {
 	if grep -q '^canshu="V6"' /usr/local/bin/k > /dev/null 2>&1; then
-		sed -i 's/^canshu="default"/canshu="V6"/' ~/kejilion.sh
+		sed -i 's/^canshu="default"/canshu="V6"/' ~/terynox.sh
 	fi
 }
 
 
 CheckFirstRun_true() {
 	if grep -q '^permission_granted="true"' /usr/local/bin/k > /dev/null 2>&1; then
-		sed -i 's/^permission_granted="false"/permission_granted="true"/' ~/kejilion.sh
+		sed -i 's/^permission_granted="false"/permission_granted="true"/' ~/terynox.sh
 	fi
 }
 
@@ -73,7 +73,7 @@ send_stats() {
 	local cpu_arch=$(uname -m)
 
 	(
-		curl -s -X POST "https://api.kejilion.pro/api/log" \
+		curl -s -X POST "https://api.terynox.pro/api/log" \
 			-H "Content-Type: application/json" \
 			-d "{\"action\":\"$1\",\"timestamp\":\"$(date -u '+%Y-%m-%d %H:%M:%S')\",\"country\":\"$country\",\"os_info\":\"$os_info\",\"cpu_arch\":\"$cpu_arch\",\"version\":\"$sh_v\"}" \
 		&>/dev/null
@@ -85,7 +85,7 @@ send_stats() {
 yinsiyuanquan2() {
 
 if grep -q '^ENABLE_STATS="false"' /usr/local/bin/k > /dev/null 2>&1; then
-	sed -i 's/^ENABLE_STATS="true"/ENABLE_STATS="false"/' ~/kejilion.sh
+	sed -i 's/^ENABLE_STATS="true"/ENABLE_STATS="false"/' ~/terynox.sh
 fi
 
 }
@@ -100,8 +100,8 @@ yinsiyuanquan2
 sed -i '/^alias k=/d' ~/.bashrc > /dev/null 2>&1
 sed -i '/^alias k=/d' ~/.profile > /dev/null 2>&1
 sed -i '/^alias k=/d' ~/.bash_profile > /dev/null 2>&1
-cp -f ./kejilion.sh ~/kejilion.sh > /dev/null 2>&1
-cp -f ~/kejilion.sh /usr/local/bin/k > /dev/null 2>&1
+cp -f ./terynox.sh ~/terynox.sh > /dev/null 2>&1
+cp -f ~/terynox.sh /usr/local/bin/k > /dev/null 2>&1
 
 
 
@@ -114,16 +114,16 @@ CheckFirstRun_false() {
 # 提示用户同意条款
 UserLicenseAgreement() {
 	clear
-	echo -e "${gl_kjlan}欢迎使用科技lion脚本工具箱${gl_bai}"
+	echo -e "${gl_terynox}欢迎使用科技lion脚本工具箱${gl_bai}"
 	echo "首次使用脚本，请先阅读并同意用户许可协议。"
-	echo "用户许可协议: https://blog.kejilion.pro/user-license-agreement/"
+	echo "用户许可协议: https://blog.terynox.pro/user-license-agreement/"
 	echo -e "----------------------"
 	read -r -p "是否同意以上条款？(y/n): " user_input
 
 
 	if [ "$user_input" = "y" ] || [ "$user_input" = "Y" ]; then
 		send_stats "许可同意"
-		sed -i 's/^permission_granted="false"/permission_granted="true"/' ~/kejilion.sh
+		sed -i 's/^permission_granted="false"/permission_granted="true"/' ~/terynox.sh
 		sed -i 's/^permission_granted="false"/permission_granted="true"/' /usr/local/bin/k
 	else
 		send_stats "许可拒绝"
@@ -228,7 +228,7 @@ check_disk_space() {
 		echo "无法继续安装，请清理磁盘空间后重试。"
 		send_stats "磁盘空间不足"
 		break_end
-		kejilion
+		terynox
 	fi
 }
 
@@ -351,9 +351,9 @@ break_end() {
 	  clear
 }
 
-kejilion() {
+terynox() {
 			cd ~
-			kejilion_sh
+			terynox_sh
 }
 
 
@@ -398,7 +398,7 @@ if [ "$country" = "CN" ]; then
 	"https://hub2.nat.tf",
 	"https://hub3.nat.tf",
 	"https://docker.m.daocloud.io",
-	"https://docker.kejilion.pro",
+	"https://docker.terynox.pro",
 	"https://docker.367231.xyz",
 	"https://hub.1panel.dev",
 	"https://dockerproxy.cool",
@@ -1304,19 +1304,19 @@ install_ldnmp_conf() {
 
   # 创建必要的目录和文件
   cd /home && mkdir -p web/html web/mysql web/certs web/conf.d web/stream.d web/redis web/log/nginx && touch web/docker-compose.yml
-  wget -O /home/web/nginx.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/nginx10.conf
-  wget -O /home/web/conf.d/default.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/default10.conf
+  wget -O /home/web/nginx.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/nginx10.conf
+  wget -O /home/web/conf.d/default.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/default10.conf
 
   default_server_ssl
 
   # 下载 docker-compose.yml 文件并进行替换
-  wget -O /home/web/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/LNMP-docker-compose-10.yml
+  wget -O /home/web/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/terynox/docker/main/LNMP-docker-compose-10.yml
   dbrootpasswd=$(openssl rand -base64 16) ; dbuse=$(openssl rand -hex 4) ; dbusepasswd=$(openssl rand -base64 8)
 
   # 在 docker-compose.yml 文件中进行替换
   sed -i "s#webroot#$dbrootpasswd#g" /home/web/docker-compose.yml
-  sed -i "s#kejilionYYDS#$dbusepasswd#g" /home/web/docker-compose.yml
-  sed -i "s#kejilion#$dbuse#g" /home/web/docker-compose.yml
+  sed -i "s#terynoxYYDS#$dbusepasswd#g" /home/web/docker-compose.yml
+  sed -i "s#terynox#$dbuse#g" /home/web/docker-compose.yml
 
 }
 
@@ -1326,15 +1326,15 @@ update_docker_compose_with_db_creds() {
   cp /home/web/docker-compose.yml /home/web/docker-compose1.yml
 
   if ! grep -q "stream" /home/web/docker-compose.yml; then
-	wget -O /home/web/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/LNMP-docker-compose-10.yml
+	wget -O /home/web/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/terynox/docker/main/LNMP-docker-compose-10.yml
 
   	dbrootpasswd=$(grep -oP 'MYSQL_ROOT_PASSWORD:\s*\K.*' /home/web/docker-compose1.yml | tr -d '[:space:]')
   	dbuse=$(grep -oP 'MYSQL_USER:\s*\K.*' /home/web/docker-compose1.yml | tr -d '[:space:]')
   	dbusepasswd=$(grep -oP 'MYSQL_PASSWORD:\s*\K.*' /home/web/docker-compose1.yml | tr -d '[:space:]')
 
 	sed -i "s#webroot#$dbrootpasswd#g" /home/web/docker-compose.yml
-	sed -i "s#kejilionYYDS#$dbusepasswd#g" /home/web/docker-compose.yml
-	sed -i "s#kejilion#$dbuse#g" /home/web/docker-compose.yml
+	sed -i "s#terynoxYYDS#$dbusepasswd#g" /home/web/docker-compose.yml
+	sed -i "s#terynox#$dbuse#g" /home/web/docker-compose.yml
   fi
 
   if grep -q "kjlion/nginx:alpine" /home/web/docker-compose1.yml; then
@@ -1394,7 +1394,7 @@ install_ldnmp() {
 	  fix_phpfpm_conf php74
 
 	  # mysql调优
-	  wget -O /home/custom_mysql_config.cnf ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/custom_mysql_config-1.cnf
+	  wget -O /home/custom_mysql_config.cnf ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/custom_mysql_config-1.cnf
 	  docker cp /home/custom_mysql_config.cnf mysql:/etc/mysql/conf.d/
 	  rm -rf /home/custom_mysql_config.cnf
 
@@ -1414,7 +1414,7 @@ install_ldnmp() {
 install_certbot() {
 
 	cd ~
-	curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/auto_cert_renewal.sh
+	curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/auto_cert_renewal.sh
 	chmod +x auto_cert_renewal.sh
 
 	check_crontab_installed
@@ -1581,7 +1581,7 @@ add_db() {
 
 reverse_proxy() {
 	  ip_address
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/reverse-proxy.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/reverse-proxy.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  sed -i "s/0.0.0.0/$ipv4_address/g" /home/web/conf.d/$yuming.conf
 	  sed -i "s|0000|$duankou|g" /home/web/conf.d/$yuming.conf
@@ -1635,7 +1635,7 @@ phpmyadmin_upgrade() {
   cd /home/web/
   docker rm -f $ldnmp_pods > /dev/null 2>&1
   docker images --filter=reference="$ldnmp_pods*" -q | xargs docker rmi > /dev/null 2>&1
-  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/docker/refs/heads/main/docker-compose.phpmyadmin.yml
+  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/docker/refs/heads/main/docker-compose.phpmyadmin.yml
   docker compose -f docker-compose.phpmyadmin.yml up -d
   clear
   ip_address
@@ -1734,7 +1734,7 @@ nginx_waf() {
 	local mode=$1
 
 	if ! grep -q "kjlion/nginx:alpine" /home/web/docker-compose.yml; then
-		wget -O /home/web/nginx.conf "${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/nginx10.conf"
+		wget -O /home/web/nginx.conf "${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/nginx10.conf"
 	fi
 
 	# 根据 mode 参数来决定开启或关闭 WAF
@@ -1888,7 +1888,7 @@ nginx_br() {
 	local mode=$1
 
 	if ! grep -q "kjlion/nginx:alpine" /home/web/docker-compose.yml; then
-		wget -O /home/web/nginx.conf "${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/nginx10.conf"
+		wget -O /home/web/nginx.conf "${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/nginx10.conf"
 	fi
 
 	if [ "$mode" == "on" ]; then
@@ -1944,7 +1944,7 @@ nginx_zstd() {
 	local mode=$1
 
 	if ! grep -q "kjlion/nginx:alpine" /home/web/docker-compose.yml; then
-		wget -O /home/web/nginx.conf "${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/nginx10.conf"
+		wget -O /home/web/nginx.conf "${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/nginx10.conf"
 	fi
 
 	if [ "$mode" == "on" ]; then
@@ -2053,14 +2053,14 @@ web_security() {
 				  1)
 					  f2b_install_sshd
 					  cd /etc/fail2ban/filter.d
-					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/fail2ban-nginx-cc.conf
+					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/fail2ban-nginx-cc.conf
 					  wget ${gh_proxy}raw.githubusercontent.com/linuxserver/fail2ban-confs/master/filter.d/nginx-418.conf
 					  wget ${gh_proxy}raw.githubusercontent.com/linuxserver/fail2ban-confs/master/filter.d/nginx-deny.conf
 					  wget ${gh_proxy}raw.githubusercontent.com/linuxserver/fail2ban-confs/master/filter.d/nginx-unauthorized.conf
 					  wget ${gh_proxy}https://raw.githubusercontent.com/linuxserver/fail2ban-confs/master/filter.d/nginx-bad-request.conf
 
 					  cd /etc/fail2ban/jail.d/
-					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/config/main/fail2ban/nginx-docker-cc.conf
+					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/config/main/fail2ban/nginx-docker-cc.conf
 					  sed -i "/cloudflare/d" /etc/fail2ban/jail.d/nginx-docker-cc.conf
 					  f2b_status
 					  ;;
@@ -2135,16 +2135,16 @@ web_security() {
 					  read -e -p "输入CF的账号: " cfuser
 					  read -e -p "输入CF的Global API Key: " cftoken
 
-					  wget -O /home/web/conf.d/default.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/default11.conf
+					  wget -O /home/web/conf.d/default.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/default11.conf
 					  docker exec nginx nginx -s reload
 
 					  cd /etc/fail2ban/jail.d/
-					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/config/main/fail2ban/nginx-docker-cc.conf
+					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/config/main/fail2ban/nginx-docker-cc.conf
 
 					  cd /etc/fail2ban/action.d
-					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/config/main/fail2ban/cloudflare-docker.conf
+					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/config/main/fail2ban/cloudflare-docker.conf
 
-					  sed -i "s/kejilion@outlook.com/$cfuser/g" /etc/fail2ban/action.d/cloudflare-docker.conf
+					  sed -i "s/terynox@outlook.com/$cfuser/g" /etc/fail2ban/action.d/cloudflare-docker.conf
 					  sed -i "s/APIKEY00000/$cftoken/g" /etc/fail2ban/action.d/cloudflare-docker.conf
 					  f2b_status
 
@@ -2167,7 +2167,7 @@ web_security() {
 					  cd ~
 					  install jq bc
 					  check_crontab_installed
-					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/CF-Under-Attack.sh
+					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/CF-Under-Attack.sh
 					  chmod +x CF-Under-Attack.sh
 					  sed -i "s/AAAA/$cfuser/g" ~/CF-Under-Attack.sh
 					  sed -i "s/BBBB/$cftoken/g" ~/CF-Under-Attack.sh
@@ -2290,13 +2290,13 @@ web_optimization() {
 
 
 				  # php调优
-				  wget -O /home/optimized_php.ini ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/optimized_php.ini
+				  wget -O /home/optimized_php.ini ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/optimized_php.ini
 				  docker cp /home/optimized_php.ini php:/usr/local/etc/php/conf.d/optimized_php.ini
 				  docker cp /home/optimized_php.ini php74:/usr/local/etc/php/conf.d/optimized_php.ini
 				  rm -rf /home/optimized_php.ini
 
 				  # php调优
-				  wget -O /home/www.conf ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/www-1.conf
+				  wget -O /home/www.conf ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/www-1.conf
 				  docker cp /home/www.conf php:/usr/local/etc/php-fpm.d/www.conf
 				  docker cp /home/www.conf php74:/usr/local/etc/php-fpm.d/www.conf
 				  rm -rf /home/www.conf
@@ -2308,7 +2308,7 @@ web_optimization() {
 				  fix_phpfpm_conf php74
 
 				  # mysql调优
-				  wget -O /home/custom_mysql_config.cnf ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/custom_mysql_config-1.cnf
+				  wget -O /home/custom_mysql_config.cnf ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/custom_mysql_config-1.cnf
 				  docker cp /home/custom_mysql_config.cnf mysql:/etc/mysql/conf.d/
 				  rm -rf /home/custom_mysql_config.cnf
 
@@ -2331,13 +2331,13 @@ web_optimization() {
 				  sed -i "s/worker_connections.*/worker_connections ${connections};/" /home/web/nginx.conf
 
 				  # php调优
-				  wget -O /home/optimized_php.ini ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/optimized_php.ini
+				  wget -O /home/optimized_php.ini ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/optimized_php.ini
 				  docker cp /home/optimized_php.ini php:/usr/local/etc/php/conf.d/optimized_php.ini
 				  docker cp /home/optimized_php.ini php74:/usr/local/etc/php/conf.d/optimized_php.ini
 				  rm -rf /home/optimized_php.ini
 
 				  # php调优
-				  wget -O /home/www.conf ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/www.conf
+				  wget -O /home/www.conf ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/www.conf
 				  docker cp /home/www.conf php:/usr/local/etc/php-fpm.d/www.conf
 				  docker cp /home/www.conf php74:/usr/local/etc/php-fpm.d/www.conf
 				  rm -rf /home/www.conf
@@ -2349,7 +2349,7 @@ web_optimization() {
 				  fix_phpfpm_conf php74
 
 				  # mysql调优
-				  wget -O /home/custom_mysql_config.cnf ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/custom_mysql_config.cnf
+				  wget -O /home/custom_mysql_config.cnf ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/custom_mysql_config.cnf
 				  docker cp /home/custom_mysql_config.cnf mysql:/etc/mysql/conf.d/
 				  rm -rf /home/custom_mysql_config.cnf
 
@@ -2980,7 +2980,7 @@ mkdir -p $GRAFANA_DIR
 chown -R 472:472 $GRAFANA_DIR
 
 if [ ! -f "$PROMETHEUS_DIR/prometheus.yml" ]; then
-	curl -o "$PROMETHEUS_DIR/prometheus.yml" ${gh_proxy}raw.githubusercontent.com/kejilion/config/refs/heads/main/prometheus/prometheus.yml
+	curl -o "$PROMETHEUS_DIR/prometheus.yml" ${gh_proxy}raw.githubusercontent.com/terynox/config/refs/heads/main/prometheus/prometheus.yml
 fi
 
 # Create Docker network for monitoring
@@ -3081,7 +3081,7 @@ f2b_install_sshd() {
 
 	if command -v dnf &>/dev/null; then
 		cd /etc/fail2ban/jail.d/
-		curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/config/main/fail2ban/centos-ssh.conf
+		curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/config/main/fail2ban/centos-ssh.conf
 	fi
 
 	if command -v apt &>/dev/null; then
@@ -3261,15 +3261,15 @@ ldnmp_wp() {
   install_ssltls
   certs_status
   add_db
-  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/wordpress.com.conf
+  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/wordpress.com.conf
   sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
   nginx_http_on
 
   cd /home/web/html
   mkdir $yuming
   cd $yuming
-  wget -O latest.zip ${gh_proxy}github.com/kejilion/Website_source_code/raw/refs/heads/main/wp-latest.zip
+  wget -O latest.zip ${gh_proxy}github.com/terynox/Website_source_code/raw/refs/heads/main/wp-latest.zip
   unzip latest.zip
   rm latest.zip
   echo "define('FS_METHOD', 'direct'); define('WP_REDIS_HOST', 'redis'); define('WP_REDIS_PORT', '6379'); define('WP_REDIS_MAXTTL', 86400); define('WP_CACHE_KEY_SALT', '${yuming}_');" >> /home/web/html/$yuming/wordpress/wp-config-sample.php
@@ -3310,8 +3310,8 @@ ldnmp_Proxy() {
 	nginx_install_status
 	install_ssltls
 	certs_status
-	wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/reverse-proxy.conf
+	wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/reverse-proxy.conf
 	sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	sed -i "s/0.0.0.0/$reverseproxy/g" /home/web/conf.d/$yuming.conf
 	sed -i "s|0000|$port|g" /home/web/conf.d/$yuming.conf
@@ -3339,8 +3339,8 @@ ldnmp_Proxy_backend() {
 	nginx_install_status
 	install_ssltls
 	certs_status
-	wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/reverse-proxy-backend.conf
+	wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/reverse-proxy-backend.conf
 
 	backend=$(tr -dc 'A-Za-z' < /dev/urandom | head -c 8)
 	sed -i "s/backend_yuming_com/backend_$backend/g" /home/web/conf.d/"$yuming".conf
@@ -3523,7 +3523,7 @@ ldnmp_Proxy_backend_stream() {
 	nginx_install_status
 	cd /home && mkdir -p web/stream.d
 	grep -q '^[[:space:]]*stream[[:space:]]*{' /home/web/nginx.conf || echo -e '\nstream {\n    include /etc/nginx/stream.d/*.conf;\n}' | tee -a /home/web/nginx.conf
-	wget -O /home/web/stream.d/$proxy_name.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/reverse-proxy-backend-stream.conf
+	wget -O /home/web/stream.d/$proxy_name.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/reverse-proxy-backend-stream.conf
 
 	backend=$(tr -dc 'A-Za-z' < /dev/urandom | head -c 8)
 	sed -i "s/backend_yuming_com/${proxy_name}_${backend}/g" /home/web/stream.d/"$proxy_name".conf
@@ -4745,7 +4745,7 @@ echo -e "${gl_lv}ROOT登录设置完毕！${gl_bai}"
 
 root_use() {
 clear
-[ "$EUID" -ne 0 ] && echo -e "${gl_huang}提示: ${gl_bai}该功能需要root用户才能运行！" && break_end && kejilion
+[ "$EUID" -ne 0 ] && echo -e "${gl_huang}提示: ${gl_bai}该功能需要root用户才能运行！" && break_end && terynox
 }
 
 
@@ -5109,13 +5109,13 @@ bbrv3() {
 						update-grub
 
 						# wget -qO - https://dl.xanmod.org/archive.key | gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg --yes
-						wget -qO - ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/archive.key | gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg --yes
+						wget -qO - ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/archive.key | gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg --yes
 
 						# 步骤3：添加存储库
 						echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-release.list
 
 						# version=$(wget -q https://dl.xanmod.org/check_x86-64_psabi.sh && chmod +x check_x86-64_psabi.sh && ./check_x86-64_psabi.sh | grep -oP 'x86-64-v\K\d+|x86-64-v\d+')
-						local version=$(wget -q ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/check_x86-64_psabi.sh && chmod +x check_x86-64_psabi.sh && ./check_x86-64_psabi.sh | grep -oP 'x86-64-v\K\d+|x86-64-v\d+')
+						local version=$(wget -q ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/check_x86-64_psabi.sh && chmod +x check_x86-64_psabi.sh && ./check_x86-64_psabi.sh | grep -oP 'x86-64-v\K\d+|x86-64-v\d+')
 
 						apt update -y
 						apt install -y linux-xanmod-x64v$version
@@ -5171,13 +5171,13 @@ bbrv3() {
 			install wget gnupg
 
 			# wget -qO - https://dl.xanmod.org/archive.key | gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg --yes
-			wget -qO - ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/archive.key | gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg --yes
+			wget -qO - ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/archive.key | gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg --yes
 
 			# 步骤3：添加存储库
 			echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-release.list
 
 			# version=$(wget -q https://dl.xanmod.org/check_x86-64_psabi.sh && chmod +x check_x86-64_psabi.sh && ./check_x86-64_psabi.sh | grep -oP 'x86-64-v\K\d+|x86-64-v\d+')
-			local version=$(wget -q ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/check_x86-64_psabi.sh && chmod +x check_x86-64_psabi.sh && ./check_x86-64_psabi.sh | grep -oP 'x86-64-v\K\d+|x86-64-v\d+')
+			local version=$(wget -q ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/check_x86-64_psabi.sh && chmod +x check_x86-64_psabi.sh && ./check_x86-64_psabi.sh | grep -oP 'x86-64-v\K\d+|x86-64-v\d+')
 
 			apt update -y
 			apt install -y linux-xanmod-x64v$version
@@ -5379,7 +5379,7 @@ clamav() {
 				echo "是一个开源的防病毒软件工具，主要用于检测和删除各种类型的恶意软件。"
 				echo "包括病毒、特洛伊木马、间谍软件、恶意脚本和其他有害软件。"
 				echo "------------------------"
-				echo -e "${gl_lv}1. 全盘扫描 ${gl_bai}             ${gl_huang}2. 重要目录扫描 ${gl_bai}            ${gl_kjlan} 3. 自定义目录扫描 ${gl_bai}"
+				echo -e "${gl_lv}1. 全盘扫描 ${gl_bai}             ${gl_huang}2. 重要目录扫描 ${gl_bai}            ${gl_terynox} 3. 自定义目录扫描 ${gl_bai}"
 				echo "------------------------"
 				echo "0. 返回上一级选单"
 				echo "------------------------"
@@ -6729,41 +6729,41 @@ linux_info() {
 
 	echo ""
 	echo -e "系统信息查询"
-	echo -e "${gl_kjlan}-------------"
-	echo -e "${gl_kjlan}主机名:         ${gl_bai}$hostname"
-	echo -e "${gl_kjlan}系统版本:       ${gl_bai}$os_info"
-	echo -e "${gl_kjlan}Linux版本:      ${gl_bai}$kernel_version"
-	echo -e "${gl_kjlan}-------------"
-	echo -e "${gl_kjlan}CPU架构:        ${gl_bai}$cpu_arch"
-	echo -e "${gl_kjlan}CPU型号:        ${gl_bai}$cpu_info"
-	echo -e "${gl_kjlan}CPU核心数:      ${gl_bai}$cpu_cores"
-	echo -e "${gl_kjlan}CPU频率:        ${gl_bai}$cpu_freq"
-	echo -e "${gl_kjlan}-------------"
-	echo -e "${gl_kjlan}CPU占用:        ${gl_bai}$cpu_usage_percent%"
-	echo -e "${gl_kjlan}系统负载:       ${gl_bai}$load"
-	echo -e "${gl_kjlan}TCP|UDP连接数:  ${gl_bai}$tcp_count|$udp_count"
-	echo -e "${gl_kjlan}物理内存:       ${gl_bai}$mem_info"
-	echo -e "${gl_kjlan}虚拟内存:       ${gl_bai}$swap_info"
-	echo -e "${gl_kjlan}硬盘占用:       ${gl_bai}$disk_info"
-	echo -e "${gl_kjlan}-------------"
-	echo -e "${gl_kjlan}总接收:         ${gl_bai}$rx"
-	echo -e "${gl_kjlan}总发送:         ${gl_bai}$tx"
-	echo -e "${gl_kjlan}-------------"
-	echo -e "${gl_kjlan}网络算法:       ${gl_bai}$congestion_algorithm $queue_algorithm"
-	echo -e "${gl_kjlan}-------------"
-	echo -e "${gl_kjlan}运营商:         ${gl_bai}$isp_info"
+	echo -e "${gl_terynox}-------------"
+	echo -e "${gl_terynox}主机名:         ${gl_bai}$hostname"
+	echo -e "${gl_terynox}系统版本:       ${gl_bai}$os_info"
+	echo -e "${gl_terynox}Linux版本:      ${gl_bai}$kernel_version"
+	echo -e "${gl_terynox}-------------"
+	echo -e "${gl_terynox}CPU架构:        ${gl_bai}$cpu_arch"
+	echo -e "${gl_terynox}CPU型号:        ${gl_bai}$cpu_info"
+	echo -e "${gl_terynox}CPU核心数:      ${gl_bai}$cpu_cores"
+	echo -e "${gl_terynox}CPU频率:        ${gl_bai}$cpu_freq"
+	echo -e "${gl_terynox}-------------"
+	echo -e "${gl_terynox}CPU占用:        ${gl_bai}$cpu_usage_percent%"
+	echo -e "${gl_terynox}系统负载:       ${gl_bai}$load"
+	echo -e "${gl_terynox}TCP|UDP连接数:  ${gl_bai}$tcp_count|$udp_count"
+	echo -e "${gl_terynox}物理内存:       ${gl_bai}$mem_info"
+	echo -e "${gl_terynox}虚拟内存:       ${gl_bai}$swap_info"
+	echo -e "${gl_terynox}硬盘占用:       ${gl_bai}$disk_info"
+	echo -e "${gl_terynox}-------------"
+	echo -e "${gl_terynox}总接收:         ${gl_bai}$rx"
+	echo -e "${gl_terynox}总发送:         ${gl_bai}$tx"
+	echo -e "${gl_terynox}-------------"
+	echo -e "${gl_terynox}网络算法:       ${gl_bai}$congestion_algorithm $queue_algorithm"
+	echo -e "${gl_terynox}-------------"
+	echo -e "${gl_terynox}运营商:         ${gl_bai}$isp_info"
 	if [ -n "$ipv4_address" ]; then
-		echo -e "${gl_kjlan}IPv4地址:       ${gl_bai}$ipv4_address"
+		echo -e "${gl_terynox}IPv4地址:       ${gl_bai}$ipv4_address"
 	fi
 
 	if [ -n "$ipv6_address" ]; then
-		echo -e "${gl_kjlan}IPv6地址:       ${gl_bai}$ipv6_address"
+		echo -e "${gl_terynox}IPv6地址:       ${gl_bai}$ipv6_address"
 	fi
-	echo -e "${gl_kjlan}DNS地址:        ${gl_bai}$dns_addresses"
-	echo -e "${gl_kjlan}地理位置:       ${gl_bai}$country $city"
-	echo -e "${gl_kjlan}系统时间:       ${gl_bai}$timezone $current_time"
-	echo -e "${gl_kjlan}-------------"
-	echo -e "${gl_kjlan}运行时长:       ${gl_bai}$runtime"
+	echo -e "${gl_terynox}DNS地址:        ${gl_bai}$dns_addresses"
+	echo -e "${gl_terynox}地理位置:       ${gl_bai}$country $city"
+	echo -e "${gl_terynox}系统时间:       ${gl_bai}$timezone $current_time"
+	echo -e "${gl_terynox}-------------"
+	echo -e "${gl_terynox}运行时长:       ${gl_bai}$runtime"
 	echo
 
 
@@ -6778,29 +6778,29 @@ linux_tools() {
 	  clear
 	  # send_stats "基础工具"
 	  echo -e "基础工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}curl 下载工具 ${gl_huang}★${gl_bai}                   ${gl_kjlan}2.   ${gl_bai}wget 下载工具 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}3.   ${gl_bai}sudo 超级管理权限工具             ${gl_kjlan}4.   ${gl_bai}socat 通信连接工具"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}htop 系统监控工具                 ${gl_kjlan}6.   ${gl_bai}iftop 网络流量监控工具"
-	  echo -e "${gl_kjlan}7.   ${gl_bai}unzip ZIP压缩解压工具             ${gl_kjlan}8.   ${gl_bai}tar GZ压缩解压工具"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}tmux 多路后台运行工具             ${gl_kjlan}10.  ${gl_bai}ffmpeg 视频编码直播推流工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}11.  ${gl_bai}btop 现代化监控工具 ${gl_huang}★${gl_bai}             ${gl_kjlan}12.  ${gl_bai}ranger 文件管理工具"
-	  echo -e "${gl_kjlan}13.  ${gl_bai}ncdu 磁盘占用查看工具             ${gl_kjlan}14.  ${gl_bai}fzf 全局搜索工具"
-	  echo -e "${gl_kjlan}15.  ${gl_bai}vim 文本编辑器                    ${gl_kjlan}16.  ${gl_bai}nano 文本编辑器 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}17.  ${gl_bai}git 版本控制系统"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}21.  ${gl_bai}黑客帝国屏保                      ${gl_kjlan}22.  ${gl_bai}跑火车屏保"
-	  echo -e "${gl_kjlan}26.  ${gl_bai}俄罗斯方块小游戏                  ${gl_kjlan}27.  ${gl_bai}贪吃蛇小游戏"
-	  echo -e "${gl_kjlan}28.  ${gl_bai}太空入侵者小游戏"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}31.  ${gl_bai}全部安装                          ${gl_kjlan}32.  ${gl_bai}全部安装（不含屏保和游戏）${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}33.  ${gl_bai}全部卸载"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}41.  ${gl_bai}安装指定工具                      ${gl_kjlan}42.  ${gl_bai}卸载指定工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}1.   ${gl_bai}curl 下载工具 ${gl_huang}★${gl_bai}                   ${gl_terynox}2.   ${gl_bai}wget 下载工具 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}3.   ${gl_bai}sudo 超级管理权限工具             ${gl_terynox}4.   ${gl_bai}socat 通信连接工具"
+	  echo -e "${gl_terynox}5.   ${gl_bai}htop 系统监控工具                 ${gl_terynox}6.   ${gl_bai}iftop 网络流量监控工具"
+	  echo -e "${gl_terynox}7.   ${gl_bai}unzip ZIP压缩解压工具             ${gl_terynox}8.   ${gl_bai}tar GZ压缩解压工具"
+	  echo -e "${gl_terynox}9.   ${gl_bai}tmux 多路后台运行工具             ${gl_terynox}10.  ${gl_bai}ffmpeg 视频编码直播推流工具"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}11.  ${gl_bai}btop 现代化监控工具 ${gl_huang}★${gl_bai}             ${gl_terynox}12.  ${gl_bai}ranger 文件管理工具"
+	  echo -e "${gl_terynox}13.  ${gl_bai}ncdu 磁盘占用查看工具             ${gl_terynox}14.  ${gl_bai}fzf 全局搜索工具"
+	  echo -e "${gl_terynox}15.  ${gl_bai}vim 文本编辑器                    ${gl_terynox}16.  ${gl_bai}nano 文本编辑器 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}17.  ${gl_bai}git 版本控制系统"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}21.  ${gl_bai}黑客帝国屏保                      ${gl_terynox}22.  ${gl_bai}跑火车屏保"
+	  echo -e "${gl_terynox}26.  ${gl_bai}俄罗斯方块小游戏                  ${gl_terynox}27.  ${gl_bai}贪吃蛇小游戏"
+	  echo -e "${gl_terynox}28.  ${gl_bai}太空入侵者小游戏"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}31.  ${gl_bai}全部安装                          ${gl_terynox}32.  ${gl_bai}全部安装（不含屏保和游戏）${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}33.  ${gl_bai}全部卸载"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}41.  ${gl_bai}安装指定工具                      ${gl_terynox}42.  ${gl_bai}卸载指定工具"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
@@ -7016,7 +7016,7 @@ linux_tools() {
 			  ;;
 
 		  0)
-			  kejilion
+			  terynox
 			  ;;
 
 		  *)
@@ -7415,29 +7415,29 @@ linux_docker() {
 	  # send_stats "docker管理"
 	  echo -e "Docker管理"
 	  docker_tato
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}安装更新Docker环境 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}2.   ${gl_bai}查看Docker全局状态 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}3.   ${gl_bai}Docker容器管理 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}4.   ${gl_bai}Docker镜像管理"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}Docker网络管理"
-	  echo -e "${gl_kjlan}6.   ${gl_bai}Docker卷管理"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}7.   ${gl_bai}清理无用的docker容器和镜像网络数据卷"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}8.   ${gl_bai}更换Docker源"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}编辑daemon.json文件"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}11.  ${gl_bai}开启Docker-ipv6访问"
-	  echo -e "${gl_kjlan}12.  ${gl_bai}关闭Docker-ipv6访问"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}19.  ${gl_bai}备份/迁移/还原Docker环境"
-	  echo -e "${gl_kjlan}20.  ${gl_bai}卸载Docker环境"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}1.   ${gl_bai}安装更新Docker环境 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}2.   ${gl_bai}查看Docker全局状态 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}3.   ${gl_bai}Docker容器管理 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}4.   ${gl_bai}Docker镜像管理"
+	  echo -e "${gl_terynox}5.   ${gl_bai}Docker网络管理"
+	  echo -e "${gl_terynox}6.   ${gl_bai}Docker卷管理"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}7.   ${gl_bai}清理无用的docker容器和镜像网络数据卷"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}8.   ${gl_bai}更换Docker源"
+	  echo -e "${gl_terynox}9.   ${gl_bai}编辑daemon.json文件"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}11.  ${gl_bai}开启Docker-ipv6访问"
+	  echo -e "${gl_terynox}12.  ${gl_bai}关闭Docker-ipv6访问"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}19.  ${gl_bai}备份/迁移/还原Docker环境"
+	  echo -e "${gl_terynox}20.  ${gl_bai}卸载Docker环境"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
@@ -7681,7 +7681,7 @@ linux_docker() {
 			  ;;
 
 		  0)
-			  kejilion
+			  terynox
 			  ;;
 		  *)
 			  echo "无效的输入!"
@@ -7703,37 +7703,37 @@ linux_test() {
 	  clear
 	  # send_stats "测试脚本合集"
 	  echo -e "测试脚本合集"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}IP及解锁状态检测"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}ChatGPT 解锁状态检测"
-	  echo -e "${gl_kjlan}2.   ${gl_bai}Region 流媒体解锁测试"
-	  echo -e "${gl_kjlan}3.   ${gl_bai}yeahwu 流媒体解锁检测"
-	  echo -e "${gl_kjlan}4.   ${gl_bai}xykt IP质量体检脚本 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}IP及解锁状态检测"
+	  echo -e "${gl_terynox}1.   ${gl_bai}ChatGPT 解锁状态检测"
+	  echo -e "${gl_terynox}2.   ${gl_bai}Region 流媒体解锁测试"
+	  echo -e "${gl_terynox}3.   ${gl_bai}yeahwu 流媒体解锁检测"
+	  echo -e "${gl_terynox}4.   ${gl_bai}xykt IP质量体检脚本 ${gl_huang}★${gl_bai}"
 
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}网络线路测速"
-	  echo -e "${gl_kjlan}11.  ${gl_bai}besttrace 三网回程延迟路由测试"
-	  echo -e "${gl_kjlan}12.  ${gl_bai}mtr_trace 三网回程线路测试"
-	  echo -e "${gl_kjlan}13.  ${gl_bai}Superspeed 三网测速"
-	  echo -e "${gl_kjlan}14.  ${gl_bai}nxtrace 快速回程测试脚本"
-	  echo -e "${gl_kjlan}15.  ${gl_bai}nxtrace 指定IP回程测试脚本"
-	  echo -e "${gl_kjlan}16.  ${gl_bai}ludashi2020 三网线路测试"
-	  echo -e "${gl_kjlan}17.  ${gl_bai}i-abc 多功能测速脚本"
-	  echo -e "${gl_kjlan}18.  ${gl_bai}NetQuality 网络质量体检脚本 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}网络线路测速"
+	  echo -e "${gl_terynox}11.  ${gl_bai}besttrace 三网回程延迟路由测试"
+	  echo -e "${gl_terynox}12.  ${gl_bai}mtr_trace 三网回程线路测试"
+	  echo -e "${gl_terynox}13.  ${gl_bai}Superspeed 三网测速"
+	  echo -e "${gl_terynox}14.  ${gl_bai}nxtrace 快速回程测试脚本"
+	  echo -e "${gl_terynox}15.  ${gl_bai}nxtrace 指定IP回程测试脚本"
+	  echo -e "${gl_terynox}16.  ${gl_bai}ludashi2020 三网线路测试"
+	  echo -e "${gl_terynox}17.  ${gl_bai}i-abc 多功能测速脚本"
+	  echo -e "${gl_terynox}18.  ${gl_bai}NetQuality 网络质量体检脚本 ${gl_huang}★${gl_bai}"
 
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}硬件性能测试"
-	  echo -e "${gl_kjlan}21.  ${gl_bai}yabs 性能测试"
-	  echo -e "${gl_kjlan}22.  ${gl_bai}icu/gb5 CPU性能测试脚本"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}硬件性能测试"
+	  echo -e "${gl_terynox}21.  ${gl_bai}yabs 性能测试"
+	  echo -e "${gl_terynox}22.  ${gl_bai}icu/gb5 CPU性能测试脚本"
 
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}综合性测试"
-	  echo -e "${gl_kjlan}31.  ${gl_bai}bench 性能测试"
-	  echo -e "${gl_kjlan}32.  ${gl_bai}spiritysdx 融合怪测评 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}33.  ${gl_bai}nodequality 融合怪测评 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}综合性测试"
+	  echo -e "${gl_terynox}31.  ${gl_bai}bench 性能测试"
+	  echo -e "${gl_terynox}32.  ${gl_bai}spiritysdx 融合怪测评 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}33.  ${gl_bai}nodequality 融合怪测评 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
@@ -7860,7 +7860,7 @@ linux_test() {
 
 
 		  0)
-			  kejilion
+			  terynox
 
 			  ;;
 		  *)
@@ -7882,17 +7882,17 @@ linux_Oracle() {
 	  clear
 	  send_stats "甲骨文云脚本合集"
 	  echo -e "甲骨文云脚本合集"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}安装闲置机器活跃脚本"
-	  echo -e "${gl_kjlan}2.   ${gl_bai}卸载闲置机器活跃脚本"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}3.   ${gl_bai}DD重装系统脚本"
-	  echo -e "${gl_kjlan}4.   ${gl_bai}R探长开机脚本"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}开启ROOT密码登录模式"
-	  echo -e "${gl_kjlan}6.   ${gl_bai}IPV6恢复工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}1.   ${gl_bai}安装闲置机器活跃脚本"
+	  echo -e "${gl_terynox}2.   ${gl_bai}卸载闲置机器活跃脚本"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}3.   ${gl_bai}DD重装系统脚本"
+	  echo -e "${gl_terynox}4.   ${gl_bai}R探长开机脚本"
+	  echo -e "${gl_terynox}5.   ${gl_bai}开启ROOT密码登录模式"
+	  echo -e "${gl_terynox}6.   ${gl_bai}IPV6恢复工具"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
@@ -8008,7 +8008,7 @@ linux_Oracle() {
 			  send_stats "ipv6修复"
 			  ;;
 		  0)
-			  kejilion
+			  terynox
 
 			  ;;
 		  *)
@@ -8035,7 +8035,7 @@ docker_tato() {
 	local volume_count=$(docker volume ls -q 2>/dev/null | wc -l)
 
 	if command -v docker &> /dev/null; then
-		echo -e "${gl_kjlan}------------------------"
+		echo -e "${gl_terynox}------------------------"
 		echo -e "${gl_lv}环境已经安装${gl_bai}  容器: ${gl_lv}$container_count${gl_bai}  镜像: ${gl_lv}$image_count${gl_bai}  网络: ${gl_lv}$network_count${gl_bai}  卷: ${gl_lv}$volume_count${gl_bai}"
 	fi
 }
@@ -8133,15 +8133,15 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/discuz.com.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/discuz.com.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
 	  cd /home/web/html
 	  mkdir $yuming
 	  cd $yuming
-	  wget -O latest.zip ${gh_proxy}github.com/kejilion/Website_source_code/raw/main/Discuz_X3.5_SC_UTF8_20250901.zip
+	  wget -O latest.zip ${gh_proxy}github.com/terynox/Website_source_code/raw/main/Discuz_X3.5_SC_UTF8_20250901.zip
 	  unzip latest.zip
 	  rm latest.zip
 
@@ -8170,8 +8170,8 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/kdy.com.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/kdy.com.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8205,8 +8205,8 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/maccms.com.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/maccms.com.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8215,10 +8215,10 @@ linux_ldnmp() {
 	  cd $yuming
 	  # wget ${gh_proxy}github.com/magicblack/maccms_down/raw/master/maccms10.zip && unzip maccms10.zip && rm maccms10.zip
 	  wget ${gh_proxy}github.com/magicblack/maccms_down/raw/master/maccms10.zip && unzip maccms10.zip && mv maccms10-*/* . && rm -r maccms10-* && rm maccms10.zip
-	  cd /home/web/html/$yuming/template/ && wget ${gh_proxy}github.com/kejilion/Website_source_code/raw/main/DYXS2.zip && unzip DYXS2.zip && rm /home/web/html/$yuming/template/DYXS2.zip
+	  cd /home/web/html/$yuming/template/ && wget ${gh_proxy}github.com/terynox/Website_source_code/raw/main/DYXS2.zip && unzip DYXS2.zip && rm /home/web/html/$yuming/template/DYXS2.zip
 	  cp /home/web/html/$yuming/template/DYXS2/asset/admin/Dyxs2.php /home/web/html/$yuming/application/admin/controller
 	  cp /home/web/html/$yuming/template/DYXS2/asset/admin/dycms.html /home/web/html/$yuming/application/admin/view/system
-	  mv /home/web/html/$yuming/admin.php /home/web/html/$yuming/vip.php && wget -O /home/web/html/$yuming/application/extra/maccms.php ${gh_proxy}raw.githubusercontent.com/kejilion/Website_source_code/main/maccms.php
+	  mv /home/web/html/$yuming/admin.php /home/web/html/$yuming/vip.php && wget -O /home/web/html/$yuming/application/extra/maccms.php ${gh_proxy}raw.githubusercontent.com/terynox/Website_source_code/main/maccms.php
 
 	  restart_ldnmp
 
@@ -8248,8 +8248,8 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/dujiaoka.com.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/dujiaoka.com.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8296,8 +8296,8 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/flarum.com.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/flarum.com.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8351,8 +8351,8 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/typecho.com.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/typecho.com.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8389,8 +8389,8 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/refs/heads/main/index_php.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/refs/heads/main/index_php.conf
 	  sed -i "s|/var/www/html/yuming.com/|/var/www/html/yuming.com/linkstack|g" /home/web/conf.d/$yuming.conf
 	  sed -i "s|yuming.com|$yuming|g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
@@ -8425,8 +8425,8 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 	  add_db
-	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/map.conf
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/index_php.conf
+	  wget -O /home/web/conf.d/map.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/map.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/index_php.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8559,7 +8559,7 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/rewrite.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/rewrite.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  sed -i "s/baidu.com/$reverseproxy/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
@@ -8596,7 +8596,7 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/reverse-proxy-domain.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/reverse-proxy-domain.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  sed -i "s|fandaicom|$fandai_yuming|g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
@@ -8659,7 +8659,7 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/html.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/html.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8667,7 +8667,7 @@ linux_ldnmp() {
 	  mkdir $yuming
 	  cd $yuming
 
-	  wget ${gh_proxy}github.com/kejilion/Website_source_code/raw/refs/heads/main/ai_prompt_generator.zip
+	  wget ${gh_proxy}github.com/terynox/Website_source_code/raw/refs/heads/main/ai_prompt_generator.zip
 	  unzip $(ls -t *.zip | head -n 1)
 	  rm -f $(ls -t *.zip | head -n 1)
 
@@ -8698,7 +8698,7 @@ linux_ldnmp() {
 	  install_ssltls
 	  certs_status
 
-	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/html.conf
+	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/terynox/nginx/main/html.conf
 	  sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 	  nginx_http_on
 
@@ -8798,7 +8798,7 @@ linux_ldnmp() {
 	  read -e -p "输入远程服务器密码: " usepasswd
 
 	  cd ~
-	  wget -O ${useip}_beifen.sh ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/beifen.sh > /dev/null 2>&1
+	  wget -O ${useip}_beifen.sh ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/beifen.sh > /dev/null 2>&1
 	  chmod +x ${useip}_beifen.sh
 
 	  sed -i "s/0.0.0.0/$useip/g" ${useip}_beifen.sh
@@ -9031,7 +9031,7 @@ linux_ldnmp() {
 		;;
 
 	0)
-		kejilion
+		terynox
 	  ;;
 
 	*)
@@ -9056,7 +9056,7 @@ while true; do
 	if [ -z "$sub_choice" ]; then
 	  clear
 	  echo -e "应用市场"
-	  echo -e "${gl_kjlan}------------------------"
+	  echo -e "${gl_terynox}------------------------"
 
 	  local app_numbers=$([ -f /home/docker/appno.txt ] && cat /home/docker/appno.txt || echo "")
 
@@ -9069,76 +9069,76 @@ while true; do
 		  fi
 	  done
 
-	  echo -e "${gl_kjlan}1.   ${color1}宝塔面板官方版                      ${gl_kjlan}2.   ${color2}aaPanel宝塔国际版"
-	  echo -e "${gl_kjlan}3.   ${color3}1Panel新一代管理面板                ${gl_kjlan}4.   ${color4}NginxProxyManager可视化面板"
-	  echo -e "${gl_kjlan}5.   ${color5}OpenList多存储文件列表程序          ${gl_kjlan}6.   ${color6}Ubuntu远程桌面网页版"
-	  echo -e "${gl_kjlan}7.   ${color7}哪吒探针VPS监控面板                 ${gl_kjlan}8.   ${color8}QB离线BT磁力下载面板"
-	  echo -e "${gl_kjlan}9.   ${color9}Poste.io邮件服务器程序              ${gl_kjlan}10.  ${color10}RocketChat多人在线聊天系统"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}11.  ${color11}禅道项目管理软件                    ${gl_kjlan}12.  ${color12}青龙面板定时任务管理平台"
-	  echo -e "${gl_kjlan}13.  ${color13}Cloudreve网盘 ${gl_huang}★${gl_bai}                     ${gl_kjlan}14.  ${color14}简单图床图片管理程序"
-	  echo -e "${gl_kjlan}15.  ${color15}emby多媒体管理系统                  ${gl_kjlan}16.  ${color16}Speedtest测速面板"
-	  echo -e "${gl_kjlan}17.  ${color17}AdGuardHome去广告软件               ${gl_kjlan}18.  ${color18}onlyoffice在线办公OFFICE"
-	  echo -e "${gl_kjlan}19.  ${color19}雷池WAF防火墙面板                   ${gl_kjlan}20.  ${color20}portainer容器管理面板"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}21.  ${color21}VScode网页版                        ${gl_kjlan}22.  ${color22}UptimeKuma监控工具"
-	  echo -e "${gl_kjlan}23.  ${color23}Memos网页备忘录                     ${gl_kjlan}24.  ${color24}Webtop远程桌面网页版 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}25.  ${color25}Nextcloud网盘                       ${gl_kjlan}26.  ${color26}QD-Today定时任务管理框架"
-	  echo -e "${gl_kjlan}27.  ${color27}Dockge容器堆栈管理面板              ${gl_kjlan}28.  ${color28}LibreSpeed测速工具"
-	  echo -e "${gl_kjlan}29.  ${color29}searxng聚合搜索站 ${gl_huang}★${gl_bai}                 ${gl_kjlan}30.  ${color30}PhotoPrism私有相册系统"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}31.  ${color31}StirlingPDF工具大全                 ${gl_kjlan}32.  ${color32}drawio免费的在线图表软件 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}33.  ${color33}Sun-Panel导航面板                   ${gl_kjlan}34.  ${color34}Pingvin-Share文件分享平台"
-	  echo -e "${gl_kjlan}35.  ${color35}极简朋友圈                          ${gl_kjlan}36.  ${color36}LobeChatAI聊天聚合网站"
-	  echo -e "${gl_kjlan}37.  ${color37}MyIP工具箱 ${gl_huang}★${gl_bai}                        ${gl_kjlan}38.  ${color38}小雅alist全家桶"
-	  echo -e "${gl_kjlan}39.  ${color39}Bililive直播录制工具                ${gl_kjlan}40.  ${color40}webssh网页版SSH连接工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}41.  ${color41}耗子管理面板                	 ${gl_kjlan}42.  ${color42}Nexterm远程连接工具"
-	  echo -e "${gl_kjlan}43.  ${color43}RustDesk远程桌面(服务端) ${gl_huang}★${gl_bai}          ${gl_kjlan}44.  ${color44}RustDesk远程桌面(中继端) ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}45.  ${color45}Docker加速站            		 ${gl_kjlan}46.  ${color46}GitHub加速站 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}47.  ${color47}普罗米修斯监控			 ${gl_kjlan}48.  ${color48}普罗米修斯(主机监控)"
-	  echo -e "${gl_kjlan}49.  ${color49}普罗米修斯(容器监控)		 ${gl_kjlan}50.  ${color50}补货监控工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}51.  ${color51}PVE开小鸡面板			 ${gl_kjlan}52.  ${color52}DPanel容器管理面板"
-	  echo -e "${gl_kjlan}53.  ${color53}llama3聊天AI大模型                  ${gl_kjlan}54.  ${color54}AMH主机建站管理面板"
-	  echo -e "${gl_kjlan}55.  ${color55}FRP内网穿透(服务端) ${gl_huang}★${gl_bai}	         ${gl_kjlan}56.  ${color56}FRP内网穿透(客户端) ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}57.  ${color57}Deepseek聊天AI大模型                ${gl_kjlan}58.  ${color58}Dify大模型知识库 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}59.  ${color59}NewAPI大模型资产管理                ${gl_kjlan}60.  ${color60}JumpServer开源堡垒机"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}61.  ${color61}在线翻译服务器			 ${gl_kjlan}62.  ${color62}RAGFlow大模型知识库"
-	  echo -e "${gl_kjlan}63.  ${color63}OpenWebUI自托管AI平台 ${gl_huang}★${gl_bai}             ${gl_kjlan}64.  ${color64}it-tools工具箱"
-	  echo -e "${gl_kjlan}65.  ${color65}n8n自动化工作流平台 ${gl_huang}★${gl_bai}               ${gl_kjlan}66.  ${color66}yt-dlp视频下载工具"
-	  echo -e "${gl_kjlan}67.  ${color67}ddns-go动态DNS管理工具 ${gl_huang}★${gl_bai}            ${gl_kjlan}68.  ${color68}AllinSSL证书管理平台"
-	  echo -e "${gl_kjlan}69.  ${color69}SFTPGo文件传输工具                  ${gl_kjlan}70.  ${color70}AstrBot聊天机器人框架"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}71.  ${color71}Navidrome私有音乐服务器             ${gl_kjlan}72.  ${color72}bitwarden密码管理器 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}73.  ${color73}LibreTV私有影视                     ${gl_kjlan}74.  ${color74}MoonTV私有影视"
-	  echo -e "${gl_kjlan}75.  ${color75}Melody音乐精灵                      ${gl_kjlan}76.  ${color76}在线DOS老游戏"
-	  echo -e "${gl_kjlan}77.  ${color77}迅雷离线下载工具                    ${gl_kjlan}78.  ${color78}PandaWiki智能文档管理系统"
-	  echo -e "${gl_kjlan}79.  ${color79}Beszel服务器监控                    ${gl_kjlan}80.  ${color80}linkwarden书签管理"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}81.  ${color81}JitsiMeet视频会议                   ${gl_kjlan}82.  ${color82}gpt-load高性能AI透明代理"
-	  echo -e "${gl_kjlan}83.  ${color83}komari服务器监控工具                ${gl_kjlan}84.  ${color84}Wallos个人财务管理工具"
-	  echo -e "${gl_kjlan}85.  ${color85}immich图片视频管理器                ${gl_kjlan}86.  ${color86}jellyfin媒体管理系统"
-	  echo -e "${gl_kjlan}87.  ${color87}SyncTV一起看片神器                  ${gl_kjlan}88.  ${color88}Owncast自托管直播平台"
-	  echo -e "${gl_kjlan}89.  ${color89}FileCodeBox文件快递                 ${gl_kjlan}90.  ${color90}matrix去中心化聊天协议"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}91.  ${color91}gitea私有代码仓库                   ${gl_kjlan}92.  ${color92}FileBrowser文件管理器"
-	  echo -e "${gl_kjlan}93.  ${color93}Dufs极简静态文件服务器              ${gl_kjlan}94.  ${color94}Gopeed高速下载工具"
-	  echo -e "${gl_kjlan}95.  ${color95}paperless文档管理平台               ${gl_kjlan}96.  ${color96}2FAuth自托管二步验证器"
-	  echo -e "${gl_kjlan}97.  ${color97}WireGuard组网(服务端)               ${gl_kjlan}98.  ${color98}WireGuard组网(客户端)"
-	  echo -e "${gl_kjlan}99.  ${color99}DSM群晖虚拟机                       ${gl_kjlan}100. ${color100}Syncthing点对点文件同步工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}101. ${color101}AI视频生成工具                      ${gl_kjlan}102. ${color102}VoceChat多人在线聊天系统"
-	  echo -e "${gl_kjlan}103. ${color103}Umami网站统计工具                   ${gl_kjlan}104. ${color104}Stream四层代理转发工具"
-	  echo -e "${gl_kjlan}105. ${color105}思源笔记                            ${gl_kjlan}106. ${color106}Drawnix开源白板工具"
-	  echo -e "${gl_kjlan}107. ${color107}PanSou网盘搜索                      ${gl_kjlan}108. ${color108}LangBot聊天机器人"
-	  echo -e "${gl_kjlan}109. ${color109}ZFile在线网盘                       ${gl_kjlan}110. ${color110}Karakeep书签管理"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}b.   ${gl_bai}备份全部应用数据                    ${gl_kjlan}r.   ${gl_bai}还原全部应用数据"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}1.   ${color1}宝塔面板官方版                      ${gl_terynox}2.   ${color2}aaPanel宝塔国际版"
+	  echo -e "${gl_terynox}3.   ${color3}1Panel新一代管理面板                ${gl_terynox}4.   ${color4}NginxProxyManager可视化面板"
+	  echo -e "${gl_terynox}5.   ${color5}OpenList多存储文件列表程序          ${gl_terynox}6.   ${color6}Ubuntu远程桌面网页版"
+	  echo -e "${gl_terynox}7.   ${color7}哪吒探针VPS监控面板                 ${gl_terynox}8.   ${color8}QB离线BT磁力下载面板"
+	  echo -e "${gl_terynox}9.   ${color9}Poste.io邮件服务器程序              ${gl_terynox}10.  ${color10}RocketChat多人在线聊天系统"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}11.  ${color11}禅道项目管理软件                    ${gl_terynox}12.  ${color12}青龙面板定时任务管理平台"
+	  echo -e "${gl_terynox}13.  ${color13}Cloudreve网盘 ${gl_huang}★${gl_bai}                     ${gl_terynox}14.  ${color14}简单图床图片管理程序"
+	  echo -e "${gl_terynox}15.  ${color15}emby多媒体管理系统                  ${gl_terynox}16.  ${color16}Speedtest测速面板"
+	  echo -e "${gl_terynox}17.  ${color17}AdGuardHome去广告软件               ${gl_terynox}18.  ${color18}onlyoffice在线办公OFFICE"
+	  echo -e "${gl_terynox}19.  ${color19}雷池WAF防火墙面板                   ${gl_terynox}20.  ${color20}portainer容器管理面板"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}21.  ${color21}VScode网页版                        ${gl_terynox}22.  ${color22}UptimeKuma监控工具"
+	  echo -e "${gl_terynox}23.  ${color23}Memos网页备忘录                     ${gl_terynox}24.  ${color24}Webtop远程桌面网页版 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}25.  ${color25}Nextcloud网盘                       ${gl_terynox}26.  ${color26}QD-Today定时任务管理框架"
+	  echo -e "${gl_terynox}27.  ${color27}Dockge容器堆栈管理面板              ${gl_terynox}28.  ${color28}LibreSpeed测速工具"
+	  echo -e "${gl_terynox}29.  ${color29}searxng聚合搜索站 ${gl_huang}★${gl_bai}                 ${gl_terynox}30.  ${color30}PhotoPrism私有相册系统"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}31.  ${color31}StirlingPDF工具大全                 ${gl_terynox}32.  ${color32}drawio免费的在线图表软件 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}33.  ${color33}Sun-Panel导航面板                   ${gl_terynox}34.  ${color34}Pingvin-Share文件分享平台"
+	  echo -e "${gl_terynox}35.  ${color35}极简朋友圈                          ${gl_terynox}36.  ${color36}LobeChatAI聊天聚合网站"
+	  echo -e "${gl_terynox}37.  ${color37}MyIP工具箱 ${gl_huang}★${gl_bai}                        ${gl_terynox}38.  ${color38}小雅alist全家桶"
+	  echo -e "${gl_terynox}39.  ${color39}Bililive直播录制工具                ${gl_terynox}40.  ${color40}webssh网页版SSH连接工具"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}41.  ${color41}耗子管理面板                	 ${gl_terynox}42.  ${color42}Nexterm远程连接工具"
+	  echo -e "${gl_terynox}43.  ${color43}RustDesk远程桌面(服务端) ${gl_huang}★${gl_bai}          ${gl_terynox}44.  ${color44}RustDesk远程桌面(中继端) ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}45.  ${color45}Docker加速站            		 ${gl_terynox}46.  ${color46}GitHub加速站 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}47.  ${color47}普罗米修斯监控			 ${gl_terynox}48.  ${color48}普罗米修斯(主机监控)"
+	  echo -e "${gl_terynox}49.  ${color49}普罗米修斯(容器监控)		 ${gl_terynox}50.  ${color50}补货监控工具"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}51.  ${color51}PVE开小鸡面板			 ${gl_terynox}52.  ${color52}DPanel容器管理面板"
+	  echo -e "${gl_terynox}53.  ${color53}llama3聊天AI大模型                  ${gl_terynox}54.  ${color54}AMH主机建站管理面板"
+	  echo -e "${gl_terynox}55.  ${color55}FRP内网穿透(服务端) ${gl_huang}★${gl_bai}	         ${gl_terynox}56.  ${color56}FRP内网穿透(客户端) ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}57.  ${color57}Deepseek聊天AI大模型                ${gl_terynox}58.  ${color58}Dify大模型知识库 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}59.  ${color59}NewAPI大模型资产管理                ${gl_terynox}60.  ${color60}JumpServer开源堡垒机"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}61.  ${color61}在线翻译服务器			 ${gl_terynox}62.  ${color62}RAGFlow大模型知识库"
+	  echo -e "${gl_terynox}63.  ${color63}OpenWebUI自托管AI平台 ${gl_huang}★${gl_bai}             ${gl_terynox}64.  ${color64}it-tools工具箱"
+	  echo -e "${gl_terynox}65.  ${color65}n8n自动化工作流平台 ${gl_huang}★${gl_bai}               ${gl_terynox}66.  ${color66}yt-dlp视频下载工具"
+	  echo -e "${gl_terynox}67.  ${color67}ddns-go动态DNS管理工具 ${gl_huang}★${gl_bai}            ${gl_terynox}68.  ${color68}AllinSSL证书管理平台"
+	  echo -e "${gl_terynox}69.  ${color69}SFTPGo文件传输工具                  ${gl_terynox}70.  ${color70}AstrBot聊天机器人框架"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}71.  ${color71}Navidrome私有音乐服务器             ${gl_terynox}72.  ${color72}bitwarden密码管理器 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}73.  ${color73}LibreTV私有影视                     ${gl_terynox}74.  ${color74}MoonTV私有影视"
+	  echo -e "${gl_terynox}75.  ${color75}Melody音乐精灵                      ${gl_terynox}76.  ${color76}在线DOS老游戏"
+	  echo -e "${gl_terynox}77.  ${color77}迅雷离线下载工具                    ${gl_terynox}78.  ${color78}PandaWiki智能文档管理系统"
+	  echo -e "${gl_terynox}79.  ${color79}Beszel服务器监控                    ${gl_terynox}80.  ${color80}linkwarden书签管理"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}81.  ${color81}JitsiMeet视频会议                   ${gl_terynox}82.  ${color82}gpt-load高性能AI透明代理"
+	  echo -e "${gl_terynox}83.  ${color83}komari服务器监控工具                ${gl_terynox}84.  ${color84}Wallos个人财务管理工具"
+	  echo -e "${gl_terynox}85.  ${color85}immich图片视频管理器                ${gl_terynox}86.  ${color86}jellyfin媒体管理系统"
+	  echo -e "${gl_terynox}87.  ${color87}SyncTV一起看片神器                  ${gl_terynox}88.  ${color88}Owncast自托管直播平台"
+	  echo -e "${gl_terynox}89.  ${color89}FileCodeBox文件快递                 ${gl_terynox}90.  ${color90}matrix去中心化聊天协议"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}91.  ${color91}gitea私有代码仓库                   ${gl_terynox}92.  ${color92}FileBrowser文件管理器"
+	  echo -e "${gl_terynox}93.  ${color93}Dufs极简静态文件服务器              ${gl_terynox}94.  ${color94}Gopeed高速下载工具"
+	  echo -e "${gl_terynox}95.  ${color95}paperless文档管理平台               ${gl_terynox}96.  ${color96}2FAuth自托管二步验证器"
+	  echo -e "${gl_terynox}97.  ${color97}WireGuard组网(服务端)               ${gl_terynox}98.  ${color98}WireGuard组网(客户端)"
+	  echo -e "${gl_terynox}99.  ${color99}DSM群晖虚拟机                       ${gl_terynox}100. ${color100}Syncthing点对点文件同步工具"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}101. ${color101}AI视频生成工具                      ${gl_terynox}102. ${color102}VoceChat多人在线聊天系统"
+	  echo -e "${gl_terynox}103. ${color103}Umami网站统计工具                   ${gl_terynox}104. ${color104}Stream四层代理转发工具"
+	  echo -e "${gl_terynox}105. ${color105}思源笔记                            ${gl_terynox}106. ${color106}Drawnix开源白板工具"
+	  echo -e "${gl_terynox}107. ${color107}PanSou网盘搜索                      ${gl_terynox}108. ${color108}LangBot聊天机器人"
+	  echo -e "${gl_terynox}109. ${color109}ZFile在线网盘                       ${gl_terynox}110. ${color110}Karakeep书签管理"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}b.   ${gl_bai}备份全部应用数据                    ${gl_terynox}r.   ${gl_bai}还原全部应用数据"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 	fi
 
@@ -9652,7 +9652,7 @@ while true; do
 
 		docker_app_install() {
 			cd /home/ && mkdir -p docker/cloud && cd docker/cloud && mkdir temp_data && mkdir -vp cloudreve/{uploads,avatar} && touch cloudreve/conf.ini && touch cloudreve/cloudreve.db && mkdir -p aria2/config && mkdir -p data/aria2 && chmod -R 777 data/aria2
-			curl -o /home/docker/cloud/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/cloudreve-docker-compose.yml
+			curl -o /home/docker/cloud/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/terynox/docker/main/cloudreve-docker-compose.yml
 			sed -i "s/5212:5212/${docker_port}:5212/g" /home/docker/cloud/docker-compose.yml
 			cd /home/docker/cloud/
 			docker compose up -d
@@ -11244,7 +11244,7 @@ while true; do
 			mkdir -p /home/docker/moontv/data
 			cd /home/docker/moontv
 
-			curl -o /home/docker/moontv/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/moontv-docker-compose.yml
+			curl -o /home/docker/moontv/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/terynox/docker/main/moontv-docker-compose.yml
 			sed -i "s/3000:3000/${docker_port}:3000/g" /home/docker/moontv/docker-compose.yml
 			sed -i "s|admin_password|${admin_password}|g" /home/docker/moontv/docker-compose.yml
 			sed -i "s|admin|${admin}|g" /home/docker/moontv/docker-compose.yml
@@ -11555,7 +11555,7 @@ while true; do
 
 		docker_rum() {
 
-			read -e -p "设置${docker_name}的登录密钥（sk-开头字母和数字组合）如: sk-159kejilionyyds163: " app_passwd
+			read -e -p "设置${docker_name}的登录密钥（sk-开头字母和数字组合）如: sk-159terynoxyyds163: " app_passwd
 
 			mkdir -p /home/docker/gpt-load && \
 			docker run -d --name gpt-load \
@@ -11881,7 +11881,7 @@ while true; do
 			mkdir -p /home/docker/gitea/postgres
 			cd /home/docker/gitea
 
-			curl -o /home/docker/gitea/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/gitea-docker-compose.yml
+			curl -o /home/docker/gitea/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/terynox/docker/main/gitea-docker-compose.yml
 			sed -i "s/3000:3000/${docker_port}:3000/g" /home/docker/gitea/docker-compose.yml
 			cd /home/docker/gitea/
 			docker compose up -d
@@ -12067,7 +12067,7 @@ while true; do
 			chmod -R 777 /home/docker/2fauth/
 			cd /home/docker/2fauth
 
-			curl -o /home/docker/2fauth/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/2fauth-docker-compose.yml
+			curl -o /home/docker/2fauth/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/terynox/docker/main/2fauth-docker-compose.yml
 
 			sed -i "s/8000:8000/${docker_port}:8000/g" /home/docker/2fauth/docker-compose.yml
 			sed -i "s/yuming.com/${yuming}/g" /home/docker/2fauth/docker-compose.yml
@@ -12302,7 +12302,7 @@ while true; do
 			chmod -R 777 /home/docker/dsm/
 			cd /home/docker/dsm
 
-			curl -o /home/docker/dsm/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/dsm-docker-compose.yml
+			curl -o /home/docker/dsm/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/terynox/docker/main/dsm-docker-compose.yml
 
 			sed -i "s/5000:5000/${docker_port}:5000/g" /home/docker/dsm/docker-compose.yml
 			sed -i "s|CPU_CORES: "2"|CPU_CORES: "${CPU_CORES}"|g" /home/docker/dsm/docker-compose.yml
@@ -12764,7 +12764,7 @@ discourse,yunsou,ahhhhfs,nsgame,gying" \
 
 
 	  0)
-		  kejilion
+		  terynox
 		  ;;
 	  *)
 		  ;;
@@ -12785,29 +12785,29 @@ linux_work() {
 	  echo -e "系统将为你提供可以后台常驻运行的工作区，你可以用来执行长时间的任务"
 	  echo -e "即使你断开SSH，工作区中的任务也不会中断，后台常驻任务。"
 	  echo -e "${gl_huang}提示: ${gl_bai}进入工作区后使用Ctrl+b再单独按d，退出工作区！"
-	  echo -e "${gl_kjlan}------------------------"
+	  echo -e "${gl_terynox}------------------------"
 	  echo "当前已存在的工作区列表"
-	  echo -e "${gl_kjlan}------------------------"
+	  echo -e "${gl_terynox}------------------------"
 	  tmux list-sessions
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}1号工作区"
-	  echo -e "${gl_kjlan}2.   ${gl_bai}2号工作区"
-	  echo -e "${gl_kjlan}3.   ${gl_bai}3号工作区"
-	  echo -e "${gl_kjlan}4.   ${gl_bai}4号工作区"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}5号工作区"
-	  echo -e "${gl_kjlan}6.   ${gl_bai}6号工作区"
-	  echo -e "${gl_kjlan}7.   ${gl_bai}7号工作区"
-	  echo -e "${gl_kjlan}8.   ${gl_bai}8号工作区"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}9号工作区"
-	  echo -e "${gl_kjlan}10.  ${gl_bai}10号工作区"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}21.  ${gl_bai}SSH常驻模式 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}22.  ${gl_bai}创建/进入工作区"
-	  echo -e "${gl_kjlan}23.  ${gl_bai}注入命令到后台工作区"
-	  echo -e "${gl_kjlan}24.  ${gl_bai}删除指定工作区"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}1.   ${gl_bai}1号工作区"
+	  echo -e "${gl_terynox}2.   ${gl_bai}2号工作区"
+	  echo -e "${gl_terynox}3.   ${gl_bai}3号工作区"
+	  echo -e "${gl_terynox}4.   ${gl_bai}4号工作区"
+	  echo -e "${gl_terynox}5.   ${gl_bai}5号工作区"
+	  echo -e "${gl_terynox}6.   ${gl_bai}6号工作区"
+	  echo -e "${gl_terynox}7.   ${gl_bai}7号工作区"
+	  echo -e "${gl_terynox}8.   ${gl_bai}8号工作区"
+	  echo -e "${gl_terynox}9.   ${gl_bai}9号工作区"
+	  echo -e "${gl_terynox}10.  ${gl_bai}10号工作区"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}21.  ${gl_bai}SSH常驻模式 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}22.  ${gl_bai}创建/进入工作区"
+	  echo -e "${gl_terynox}23.  ${gl_bai}注入命令到后台工作区"
+	  echo -e "${gl_terynox}24.  ${gl_bai}删除指定工作区"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
@@ -12941,7 +12941,7 @@ linux_work() {
 			  ;;
 
 		  0)
-			  kejilion
+			  terynox
 			  ;;
 		  *)
 			  echo "无效的输入!"
@@ -13008,37 +13008,37 @@ linux_Settings() {
 	  clear
 	  # send_stats "系统工具"
 	  echo -e "系统工具"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}设置脚本启动快捷键                 ${gl_kjlan}2.   ${gl_bai}修改登录密码"
-	  echo -e "${gl_kjlan}3.   ${gl_bai}ROOT密码登录模式                   ${gl_kjlan}4.   ${gl_bai}安装Python指定版本"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}开放所有端口                       ${gl_kjlan}6.   ${gl_bai}修改SSH连接端口"
-	  echo -e "${gl_kjlan}7.   ${gl_bai}优化DNS地址                        ${gl_kjlan}8.   ${gl_bai}一键重装系统 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}禁用ROOT账户创建新账户             ${gl_kjlan}10.  ${gl_bai}切换优先ipv4/ipv6"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}11.  ${gl_bai}查看端口占用状态                   ${gl_kjlan}12.  ${gl_bai}修改虚拟内存大小"
-	  echo -e "${gl_kjlan}13.  ${gl_bai}用户管理                           ${gl_kjlan}14.  ${gl_bai}用户/密码生成器"
-	  echo -e "${gl_kjlan}15.  ${gl_bai}系统时区调整                       ${gl_kjlan}16.  ${gl_bai}设置BBR3加速"
-	  echo -e "${gl_kjlan}17.  ${gl_bai}防火墙高级管理器                   ${gl_kjlan}18.  ${gl_bai}修改主机名"
-	  echo -e "${gl_kjlan}19.  ${gl_bai}切换系统更新源                     ${gl_kjlan}20.  ${gl_bai}定时任务管理"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}21.  ${gl_bai}本机host解析                       ${gl_kjlan}22.  ${gl_bai}SSH防御程序"
-	  echo -e "${gl_kjlan}23.  ${gl_bai}限流自动关机                       ${gl_kjlan}24.  ${gl_bai}ROOT私钥登录模式"
-	  echo -e "${gl_kjlan}25.  ${gl_bai}TG-bot系统监控预警                 ${gl_kjlan}26.  ${gl_bai}修复OpenSSH高危漏洞"
-	  echo -e "${gl_kjlan}27.  ${gl_bai}红帽系Linux内核升级                ${gl_kjlan}28.  ${gl_bai}Linux系统内核参数优化 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}29.  ${gl_bai}病毒扫描工具 ${gl_huang}★${gl_bai}                     ${gl_kjlan}30.  ${gl_bai}文件管理器"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}31.  ${gl_bai}切换系统语言                       ${gl_kjlan}32.  ${gl_bai}命令行美化工具 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}33.  ${gl_bai}设置系统回收站                     ${gl_kjlan}34.  ${gl_bai}系统备份与恢复"
-	  echo -e "${gl_kjlan}35.  ${gl_bai}ssh远程连接工具                    ${gl_kjlan}36.  ${gl_bai}硬盘分区管理工具"
-	  echo -e "${gl_kjlan}37.  ${gl_bai}命令行历史记录                     ${gl_kjlan}38.  ${gl_bai}rsync远程同步工具"
-	  echo -e "${gl_kjlan}39.  ${gl_bai}命令收藏夹 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}41.  ${gl_bai}留言板                             ${gl_kjlan}66.  ${gl_bai}一条龙系统调优 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}99.  ${gl_bai}重启服务器                         ${gl_kjlan}100. ${gl_bai}隐私与安全"
-	  echo -e "${gl_kjlan}101. ${gl_bai}k命令高级用法 ${gl_huang}★${gl_bai}                    ${gl_kjlan}102. ${gl_bai}卸载科技lion脚本"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}1.   ${gl_bai}设置脚本启动快捷键                 ${gl_terynox}2.   ${gl_bai}修改登录密码"
+	  echo -e "${gl_terynox}3.   ${gl_bai}ROOT密码登录模式                   ${gl_terynox}4.   ${gl_bai}安装Python指定版本"
+	  echo -e "${gl_terynox}5.   ${gl_bai}开放所有端口                       ${gl_terynox}6.   ${gl_bai}修改SSH连接端口"
+	  echo -e "${gl_terynox}7.   ${gl_bai}优化DNS地址                        ${gl_terynox}8.   ${gl_bai}一键重装系统 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}9.   ${gl_bai}禁用ROOT账户创建新账户             ${gl_terynox}10.  ${gl_bai}切换优先ipv4/ipv6"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}11.  ${gl_bai}查看端口占用状态                   ${gl_terynox}12.  ${gl_bai}修改虚拟内存大小"
+	  echo -e "${gl_terynox}13.  ${gl_bai}用户管理                           ${gl_terynox}14.  ${gl_bai}用户/密码生成器"
+	  echo -e "${gl_terynox}15.  ${gl_bai}系统时区调整                       ${gl_terynox}16.  ${gl_bai}设置BBR3加速"
+	  echo -e "${gl_terynox}17.  ${gl_bai}防火墙高级管理器                   ${gl_terynox}18.  ${gl_bai}修改主机名"
+	  echo -e "${gl_terynox}19.  ${gl_bai}切换系统更新源                     ${gl_terynox}20.  ${gl_bai}定时任务管理"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}21.  ${gl_bai}本机host解析                       ${gl_terynox}22.  ${gl_bai}SSH防御程序"
+	  echo -e "${gl_terynox}23.  ${gl_bai}限流自动关机                       ${gl_terynox}24.  ${gl_bai}ROOT私钥登录模式"
+	  echo -e "${gl_terynox}25.  ${gl_bai}TG-bot系统监控预警                 ${gl_terynox}26.  ${gl_bai}修复OpenSSH高危漏洞"
+	  echo -e "${gl_terynox}27.  ${gl_bai}红帽系Linux内核升级                ${gl_terynox}28.  ${gl_bai}Linux系统内核参数优化 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}29.  ${gl_bai}病毒扫描工具 ${gl_huang}★${gl_bai}                     ${gl_terynox}30.  ${gl_bai}文件管理器"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}31.  ${gl_bai}切换系统语言                       ${gl_terynox}32.  ${gl_bai}命令行美化工具 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}33.  ${gl_bai}设置系统回收站                     ${gl_terynox}34.  ${gl_bai}系统备份与恢复"
+	  echo -e "${gl_terynox}35.  ${gl_bai}ssh远程连接工具                    ${gl_terynox}36.  ${gl_bai}硬盘分区管理工具"
+	  echo -e "${gl_terynox}37.  ${gl_bai}命令行历史记录                     ${gl_terynox}38.  ${gl_bai}rsync远程同步工具"
+	  echo -e "${gl_terynox}39.  ${gl_bai}命令收藏夹 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}41.  ${gl_bai}留言板                             ${gl_terynox}66.  ${gl_bai}一条龙系统调优 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_terynox}99.  ${gl_bai}重启服务器                         ${gl_terynox}100. ${gl_bai}隐私与安全"
+	  echo -e "${gl_terynox}101. ${gl_bai}k命令高级用法 ${gl_huang}★${gl_bai}                    ${gl_terynox}102. ${gl_bai}卸载科技lion脚本"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
@@ -13720,7 +13720,7 @@ EOF
 
 				  case $host_dns in
 					  1)
-						  read -e -p "请输入新的解析记录 格式: 110.25.5.33 kejilion.pro : " addhost
+						  read -e -p "请输入新的解析记录 格式: 110.25.5.33 terynox.pro : " addhost
 						  echo "$addhost" >> /etc/hosts
 						  send_stats "本地host解析新增"
 
@@ -13798,8 +13798,8 @@ EOF
 				echo "------------------------------------------------"
 				echo "当前流量使用情况，重启服务器流量计算会清零！"
 				output_status
-				echo -e "${gl_kjlan}总接收: ${gl_bai}$rx"
-				echo -e "${gl_kjlan}总发送: ${gl_bai}$tx"
+				echo -e "${gl_terynox}总接收: ${gl_bai}$rx"
+				echo -e "${gl_terynox}总发送: ${gl_bai}$tx"
 
 				# 检查是否存在 Limiting_Shut_down.sh 文件
 				if [ -f ~/Limiting_Shut_down.sh ]; then
@@ -13834,7 +13834,7 @@ EOF
 					cz_day=${cz_day:-1}
 
 					cd ~
-					curl -Ss -o ~/Limiting_Shut_down.sh ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/Limiting_Shut_down1.sh
+					curl -Ss -o ~/Limiting_Shut_down.sh ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/Limiting_Shut_down1.sh
 					chmod +x ~/Limiting_Shut_down.sh
 					sed -i "s/110/$rx_threshold_gb/g" ~/Limiting_Shut_down.sh
 					sed -i "s/120/$tx_threshold_gb/g" ~/Limiting_Shut_down.sh
@@ -13932,7 +13932,7 @@ EOF
 					  chmod +x ~/TG-check-notify.sh
 					  nano ~/TG-check-notify.sh
 				  else
-					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/TG-check-notify.sh
+					  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/TG-check-notify.sh
 					  chmod +x ~/TG-check-notify.sh
 					  nano ~/TG-check-notify.sh
 				  fi
@@ -13941,7 +13941,7 @@ EOF
 				  crontab -l | grep -v '~/TG-check-notify.sh' | crontab - > /dev/null 2>&1
 				  (crontab -l ; echo "@reboot tmux new -d -s TG-check-notify '~/TG-check-notify.sh'") | crontab - > /dev/null 2>&1
 
-				  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/TG-SSH-check-notify.sh > /dev/null 2>&1
+				  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/TG-SSH-check-notify.sh > /dev/null 2>&1
 				  sed -i "3i$(grep '^TELEGRAM_BOT_TOKEN=' ~/TG-check-notify.sh)" TG-SSH-check-notify.sh > /dev/null 2>&1
 				  sed -i "4i$(grep '^CHAT_ID=' ~/TG-check-notify.sh)" TG-SSH-check-notify.sh
 				  chmod +x ~/TG-SSH-check-notify.sh
@@ -13973,7 +13973,7 @@ EOF
 			  root_use
 			  send_stats "修复SSH高危漏洞"
 			  cd ~
-			  curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/upgrade_openssh9.8p1.sh
+			  curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/upgrade_openssh9.8p1.sh
 			  chmod +x ~/upgrade_openssh9.8p1.sh
 			  ~/upgrade_openssh9.8p1.sh
 			  rm -f ~/upgrade_openssh9.8p1.sh
@@ -14040,8 +14040,8 @@ EOF
 			clear
 			send_stats "留言板"
 			echo "访问科技lion官方留言板，您对脚本有任何想法欢迎留言交流！"
-			echo "https://board.kejilion.pro"
-			echo "公共密码: kejilion.sh"
+			echo "https://board.terynox.pro"
+			echo "公共密码: terynox.sh"
 			  ;;
 
 		  66)
@@ -14166,14 +14166,14 @@ EOF
 				  1)
 					  cd ~
 					  sed -i 's/^ENABLE_STATS="false"/ENABLE_STATS="true"/' /usr/local/bin/k
-					  sed -i 's/^ENABLE_STATS="false"/ENABLE_STATS="true"/' ~/kejilion.sh
+					  sed -i 's/^ENABLE_STATS="false"/ENABLE_STATS="true"/' ~/terynox.sh
 					  echo "已开启采集"
 					  send_stats "隐私与安全已开启采集"
 					  ;;
 				  2)
 					  cd ~
 					  sed -i 's/^ENABLE_STATS="true"/ENABLE_STATS="false"/' /usr/local/bin/k
-					  sed -i 's/^ENABLE_STATS="true"/ENABLE_STATS="false"/' ~/kejilion.sh
+					  sed -i 's/^ENABLE_STATS="true"/ENABLE_STATS="false"/' ~/terynox.sh
 					  echo "已关闭采集"
 					  send_stats "隐私与安全已关闭采集"
 					  ;;
@@ -14194,15 +14194,15 @@ EOF
 			  send_stats "卸载科技lion脚本"
 			  echo "卸载科技lion脚本"
 			  echo "------------------------------------------------"
-			  echo "将彻底卸载kejilion脚本，不影响你其他功能"
+			  echo "将彻底卸载terynox脚本，不影响你其他功能"
 			  read -e -p "确定继续吗？(Y/N): " choice
 
 			  case "$choice" in
 				[Yy])
 				  clear
-				  (crontab -l | grep -v "kejilion.sh") | crontab -
+				  (crontab -l | grep -v "terynox.sh") | crontab -
 				  rm -f /usr/local/bin/k
-				  rm ~/kejilion.sh
+				  rm ~/terynox.sh
 				  echo "脚本已卸载，再见！"
 				  break_end
 				  clear
@@ -14218,7 +14218,7 @@ EOF
 			  ;;
 
 		  0)
-			  kejilion
+			  terynox
 
 			  ;;
 		  *)
@@ -14448,7 +14448,7 @@ EOF
 cluster_python3() {
 	install python3 python3-paramiko
 	cd ~/cluster/
-	curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/python-for-vps/main/cluster/$py_task
+	curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/python-for-vps/main/cluster/$py_task
 	python3 ~/cluster/$py_task
 }
 
@@ -14497,18 +14497,18 @@ while true; do
 	  echo "服务器集群控制"
 	  cat ~/cluster/servers.py
 	  echo
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
-	  echo -e "${gl_kjlan}服务器列表管理${gl_bai}"
-	  echo -e "${gl_kjlan}1.  ${gl_bai}添加服务器               ${gl_kjlan}2.  ${gl_bai}删除服务器            ${gl_kjlan}3.  ${gl_bai}编辑服务器"
-	  echo -e "${gl_kjlan}4.  ${gl_bai}备份集群                 ${gl_kjlan}5.  ${gl_bai}还原集群"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
-	  echo -e "${gl_kjlan}批量执行任务${gl_bai}"
-	  echo -e "${gl_kjlan}11. ${gl_bai}安装科技lion脚本         ${gl_kjlan}12. ${gl_bai}更新系统              ${gl_kjlan}13. ${gl_bai}清理系统"
-	  echo -e "${gl_kjlan}14. ${gl_bai}安装docker               ${gl_kjlan}15. ${gl_bai}安装BBR3              ${gl_kjlan}16. ${gl_bai}设置1G虚拟内存"
-	  echo -e "${gl_kjlan}17. ${gl_bai}设置时区到上海           ${gl_kjlan}18. ${gl_bai}开放所有端口	       ${gl_kjlan}51. ${gl_bai}自定义指令"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
-	  echo -e "${gl_kjlan}0.  ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}服务器列表管理${gl_bai}"
+	  echo -e "${gl_terynox}1.  ${gl_bai}添加服务器               ${gl_terynox}2.  ${gl_bai}删除服务器            ${gl_terynox}3.  ${gl_bai}编辑服务器"
+	  echo -e "${gl_terynox}4.  ${gl_bai}备份集群                 ${gl_terynox}5.  ${gl_bai}还原集群"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}批量执行任务${gl_bai}"
+	  echo -e "${gl_terynox}11. ${gl_bai}安装科技lion脚本         ${gl_terynox}12. ${gl_bai}更新系统              ${gl_terynox}13. ${gl_bai}清理系统"
+	  echo -e "${gl_terynox}14. ${gl_bai}安装docker               ${gl_terynox}15. ${gl_bai}安装BBR3              ${gl_terynox}16. ${gl_bai}设置1G虚拟内存"
+	  echo -e "${gl_terynox}17. ${gl_bai}设置时区到上海           ${gl_terynox}18. ${gl_bai}开放所有端口	       ${gl_terynox}51. ${gl_bai}自定义指令"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}0.  ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
@@ -14552,7 +14552,7 @@ while true; do
 			  ;;
 
 		  11)
-			  local py_task="install_kejilion.py"
+			  local py_task="install_terynox.py"
 			  cluster_python3
 			  ;;
 		  12)
@@ -14584,7 +14584,7 @@ while true; do
 			  ;;
 
 		  *)
-			  kejilion
+			  terynox
 			  ;;
 	  esac
 done
@@ -14594,7 +14594,7 @@ done
 
 
 
-kejilion_Affiliates() {
+terynox_Affiliates() {
 
 clear
 send_stats "广告专栏"
@@ -14622,23 +14622,23 @@ echo "------------------------"
 echo -e "${gl_zi}V.PS 6.9刀每月 东京软银 2核心 1G内存 20G硬盘 1T流量每月${gl_bai}"
 echo -e "${gl_bai}网址: https://vps.hosting/cart/tokyo-cloud-kvm-vps/?id=148&?affid=1355&?affid=1355${gl_bai}"
 echo "------------------------"
-echo -e "${gl_kjlan}VPS更多热门优惠${gl_bai}"
-echo -e "${gl_bai}网址: https://kejilion.pro/topvps/${gl_bai}"
+echo -e "${gl_terynox}VPS更多热门优惠${gl_bai}"
+echo -e "${gl_bai}网址: https://terynox.pro/topvps/${gl_bai}"
 echo "------------------------"
 echo ""
 echo -e "域名优惠"
 echo "------------------------"
 echo -e "${gl_lan}GNAME 8.8刀首年COM域名 6.68刀首年CC域名${gl_bai}"
-echo -e "${gl_bai}网址: https://www.gname.com/register?tt=86836&ttcode=KEJILION86836&ttbj=sh${gl_bai}"
+echo -e "${gl_bai}网址: https://www.gname.com/register?tt=86836&ttcode=terynox86836&ttbj=sh${gl_bai}"
 echo "------------------------"
 echo ""
 echo -e "科技lion周边"
 echo "------------------------"
-echo -e "${gl_kjlan}B站: ${gl_bai}https://b23.tv/2mqnQyh              ${gl_kjlan}油管: ${gl_bai}https://www.youtube.com/@kejilion${gl_bai}"
-echo -e "${gl_kjlan}官网: ${gl_bai}https://kejilion.pro/              ${gl_kjlan}导航: ${gl_bai}https://dh.kejilion.pro/${gl_bai}"
-echo -e "${gl_kjlan}博客: ${gl_bai}https://blog.kejilion.pro/         ${gl_kjlan}软件中心: ${gl_bai}https://app.kejilion.pro/${gl_bai}"
+echo -e "${gl_terynox}B站: ${gl_bai}https://b23.tv/2mqnQyh              ${gl_terynox}油管: ${gl_bai}https://www.youtube.com/@terynox${gl_bai}"
+echo -e "${gl_terynox}官网: ${gl_bai}https://terynox.pro/              ${gl_terynox}导航: ${gl_bai}https://dh.terynox.pro/${gl_bai}"
+echo -e "${gl_terynox}博客: ${gl_bai}https://blog.terynox.pro/         ${gl_terynox}软件中心: ${gl_bai}https://app.terynox.pro/${gl_bai}"
 echo "------------------------"
-echo -e "${gl_kjlan}脚本官网: ${gl_bai}https://kejilion.sh            ${gl_kjlan}GitHub地址: ${gl_bai}https://github.com/kejilion/sh${gl_bai}"
+echo -e "${gl_terynox}脚本官网: ${gl_bai}https://terynox.sh            ${gl_terynox}GitHub地址: ${gl_bai}https://github.com/terynox/sh${gl_bai}"
 echo "------------------------"
 echo ""
 }
@@ -14651,27 +14651,27 @@ games_server_tools() {
 	while true; do
 	  clear
 	  echo -e "游戏开服脚本合集"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}1. ${gl_bai}幻兽帕鲁开服脚本"
-	  echo -e "${gl_kjlan}2. ${gl_bai}我的世界开服脚本"
-	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0. ${gl_bai}返回主菜单"
-	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}1. ${gl_bai}幻兽帕鲁开服脚本"
+	  echo -e "${gl_terynox}2. ${gl_bai}我的世界开服脚本"
+	  echo -e "${gl_terynox}------------------------"
+	  echo -e "${gl_terynox}0. ${gl_bai}返回主菜单"
+	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
 	  case $sub_choice in
 
 		  1) send_stats "幻兽帕鲁开服脚本" ; cd ~
-			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/palworld.sh ; chmod +x palworld.sh ; ./palworld.sh
+			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/palworld.sh ; chmod +x palworld.sh ; ./palworld.sh
 			 exit
 			 ;;
 		  2) send_stats "我的世界开服脚本" ; cd ~
-			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/mc.sh ; chmod +x mc.sh ; ./mc.sh
+			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/mc.sh ; chmod +x mc.sh ; ./mc.sh
 			 exit
 			 ;;
 
 		  0)
-			kejilion
+			terynox
 			;;
 
 		  *)
@@ -14705,7 +14705,7 @@ games_server_tools() {
 
 
 
-kejilion_update() {
+terynox_update() {
 
 send_stats "脚本更新"
 cd ~
@@ -14713,11 +14713,11 @@ while true; do
 	clear
 	echo "更新日志"
 	echo "------------------------"
-	echo "全部日志: ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/kejilion_sh_log.txt"
+	echo "全部日志: ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/terynox_sh_log.txt"
 	echo "------------------------"
 
-	curl -s ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/kejilion_sh_log.txt | tail -n 30
-	local sh_v_new=$(curl -s ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
+	curl -s ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/terynox_sh_log.txt | tail -n 30
+	local sh_v_new=$(curl -s ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/terynox.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
 
 	if [ "$sh_v" = "$sh_v_new" ]; then
 		echo -e "${gl_lv}你已经是最新版本！${gl_huang}v$sh_v${gl_bai}"
@@ -14728,7 +14728,7 @@ while true; do
 	fi
 
 
-	local cron_job="kejilion.sh"
+	local cron_job="terynox.sh"
 	local existing_cron=$(crontab -l 2>/dev/null | grep -F "$cron_job")
 
 	if [ -n "$existing_cron" ]; then
@@ -14747,18 +14747,18 @@ while true; do
 			clear
 			local country=$(curl -s ipinfo.io/country)
 			if [ "$country" = "CN" ]; then
-				curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/cn/kejilion.sh && chmod +x kejilion.sh
+				curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/cn/terynox.sh && chmod +x terynox.sh
 			else
-				curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh
+				curl -sS -O ${gh_proxy}raw.githubusercontent.com/terynox/sh/main/terynox.sh && chmod +x terynox.sh
 			fi
 			canshu_v6
 			CheckFirstRun_true
 			yinsiyuanquan2
-			cp -f ~/kejilion.sh /usr/local/bin/k > /dev/null 2>&1
+			cp -f ~/terynox.sh /usr/local/bin/k > /dev/null 2>&1
 			echo -e "${gl_lv}脚本已更新到最新版本！${gl_huang}v$sh_v_new${gl_bai}"
 			send_stats "脚本已经最新$sh_v_new"
 			break_end
-			~/kejilion.sh
+			~/terynox.sh
 			exit
 			;;
 		2)
@@ -14766,14 +14766,14 @@ while true; do
 			local country=$(curl -s ipinfo.io/country)
 			local ipv6_address=$(curl -s --max-time 1 ipv6.ip.sb)
 			if [ "$country" = "CN" ]; then
-				SH_Update_task="curl -sS -O https://gh.kejilion.pro/raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh && sed -i 's/canshu=\"default\"/canshu=\"CN\"/g' ./kejilion.sh"
+				SH_Update_task="curl -sS -O https://gh.terynox.pro/raw.githubusercontent.com/terynox/sh/main/terynox.sh && chmod +x terynox.sh && sed -i 's/canshu=\"default\"/canshu=\"CN\"/g' ./terynox.sh"
 			elif [ -n "$ipv6_address" ]; then
-				SH_Update_task="curl -sS -O https://gh.kejilion.pro/raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh && sed -i 's/canshu=\"default\"/canshu=\"V6\"/g' ./kejilion.sh"
+				SH_Update_task="curl -sS -O https://gh.terynox.pro/raw.githubusercontent.com/terynox/sh/main/terynox.sh && chmod +x terynox.sh && sed -i 's/canshu=\"default\"/canshu=\"V6\"/g' ./terynox.sh"
 			else
-				SH_Update_task="curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh"
+				SH_Update_task="curl -sS -O https://raw.githubusercontent.com/terynox/sh/main/terynox.sh && chmod +x terynox.sh"
 			fi
 			check_crontab_installed
-			(crontab -l | grep -v "kejilion.sh") | crontab -
+			(crontab -l | grep -v "terynox.sh") | crontab -
 			# (crontab -l 2>/dev/null; echo "0 2 * * * bash -c \"$SH_Update_task\"") | crontab -
 			(crontab -l 2>/dev/null; echo "$(shuf -i 0-59 -n 1) 2 * * * bash -c \"$SH_Update_task\"") | crontab -
 			echo -e "${gl_lv}自动更新已开启，每天凌晨2点脚本会自动更新！${gl_bai}"
@@ -14782,13 +14782,13 @@ while true; do
 			;;
 		3)
 			clear
-			(crontab -l | grep -v "kejilion.sh") | crontab -
+			(crontab -l | grep -v "terynox.sh") | crontab -
 			echo -e "${gl_lv}自动更新已关闭${gl_bai}"
 			send_stats "关闭脚本自动更新"
 			break_end
 			;;
 		*)
-			kejilion_sh
+			terynox_sh
 			;;
 	esac
 done
@@ -14799,37 +14799,37 @@ done
 
 
 
-kejilion_sh() {
+terynox_sh() {
 while true; do
 clear
-echo -e "${gl_kjlan}"
+echo -e "${gl_terynox}"
 echo "╦╔═╔═╗ ╦╦╦  ╦╔═╗╔╗╔ ╔═╗╦ ╦"
 echo "╠╩╗║╣  ║║║  ║║ ║║║║ ╚═╗╠═╣"
 echo "╩ ╩╚═╝╚╝╩╩═╝╩╚═╝╝╚╝o╚═╝╩ ╩"
 echo -e "科技lion脚本工具箱 v$sh_v"
-echo -e "命令行输入${gl_huang}k${gl_kjlan}可快速启动脚本${gl_bai}"
-echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}1.   ${gl_bai}系统信息查询"
-echo -e "${gl_kjlan}2.   ${gl_bai}系统更新"
-echo -e "${gl_kjlan}3.   ${gl_bai}系统清理"
-echo -e "${gl_kjlan}4.   ${gl_bai}基础工具"
-echo -e "${gl_kjlan}5.   ${gl_bai}BBR管理"
-echo -e "${gl_kjlan}6.   ${gl_bai}Docker管理"
-echo -e "${gl_kjlan}7.   ${gl_bai}WARP管理"
-echo -e "${gl_kjlan}8.   ${gl_bai}测试脚本合集"
-echo -e "${gl_kjlan}9.   ${gl_bai}甲骨文云脚本合集"
+echo -e "命令行输入${gl_huang}k${gl_terynox}可快速启动脚本${gl_bai}"
+echo -e "${gl_terynox}------------------------${gl_bai}"
+echo -e "${gl_terynox}1.   ${gl_bai}系统信息查询"
+echo -e "${gl_terynox}2.   ${gl_bai}系统更新"
+echo -e "${gl_terynox}3.   ${gl_bai}系统清理"
+echo -e "${gl_terynox}4.   ${gl_bai}基础工具"
+echo -e "${gl_terynox}5.   ${gl_bai}BBR管理"
+echo -e "${gl_terynox}6.   ${gl_bai}Docker管理"
+echo -e "${gl_terynox}7.   ${gl_bai}WARP管理"
+echo -e "${gl_terynox}8.   ${gl_bai}测试脚本合集"
+echo -e "${gl_terynox}9.   ${gl_bai}甲骨文云脚本合集"
 echo -e "${gl_huang}10.  ${gl_bai}LDNMP建站"
-echo -e "${gl_kjlan}11.  ${gl_bai}应用市场"
-echo -e "${gl_kjlan}12.  ${gl_bai}后台工作区"
-echo -e "${gl_kjlan}13.  ${gl_bai}系统工具"
-echo -e "${gl_kjlan}14.  ${gl_bai}服务器集群控制"
-echo -e "${gl_kjlan}15.  ${gl_bai}广告专栏"
-echo -e "${gl_kjlan}16.  ${gl_bai}游戏开服脚本合集"
-echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}00.  ${gl_bai}脚本更新"
-echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}0.   ${gl_bai}退出脚本"
-echo -e "${gl_kjlan}------------------------${gl_bai}"
+echo -e "${gl_terynox}11.  ${gl_bai}应用市场"
+echo -e "${gl_terynox}12.  ${gl_bai}后台工作区"
+echo -e "${gl_terynox}13.  ${gl_bai}系统工具"
+echo -e "${gl_terynox}14.  ${gl_bai}服务器集群控制"
+echo -e "${gl_terynox}15.  ${gl_bai}广告专栏"
+echo -e "${gl_terynox}16.  ${gl_bai}游戏开服脚本合集"
+echo -e "${gl_terynox}------------------------${gl_bai}"
+echo -e "${gl_terynox}00.  ${gl_bai}脚本更新"
+echo -e "${gl_terynox}------------------------${gl_bai}"
+echo -e "${gl_terynox}0.   ${gl_bai}退出脚本"
+echo -e "${gl_terynox}------------------------${gl_bai}"
 read -e -p "请输入你的选择: " choice
 
 case $choice in
@@ -14849,9 +14849,9 @@ case $choice in
   12) linux_work ;;
   13) linux_Settings ;;
   14) linux_cluster ;;
-  15) kejilion_Affiliates ;;
+  15) terynox_Affiliates ;;
   16) games_server_tools ;;
-  00) kejilion_update ;;
+  00) terynox_update ;;
   0) clear ; exit ;;
   *) echo "无效的输入!" ;;
 esac
@@ -14914,7 +14914,7 @@ echo "显示系统信息        k info"
 
 if [ "$#" -eq 0 ]; then
 	# 如果没有参数，运行交互式逻辑
-	kejilion_sh
+	terynox_sh
 else
 	# 如果有参数，执行相应函数
 	case $1 in
