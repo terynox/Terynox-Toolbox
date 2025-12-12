@@ -114,7 +114,7 @@ CheckFirstRun_false() {
 # 提示用户同意条款
 UserLicenseAgreement() {
 	clear
-	echo -e "${gl_terynox}欢迎使用科技lion脚本工具箱${gl_bai}"
+	echo -e "${gl_terynox}欢迎使用terynox脚本工具箱${gl_bai}"
 	echo "首次使用脚本，请先阅读并同意用户许可协议。"
 	echo "用户许可协议: https://blog.terynox.pro/user-license-agreement/"
 	echo -e "----------------------"
@@ -13035,7 +13035,7 @@ linux_Settings() {
 	  echo -e "${gl_terynox}------------------------"
 	  echo -e "${gl_terynox}41.  ${gl_bai}留言板                             ${gl_terynox}66.  ${gl_bai}一条龙系统调优 ${gl_huang}★${gl_bai}"
 	  echo -e "${gl_terynox}99.  ${gl_bai}重启服务器                         ${gl_terynox}100. ${gl_bai}隐私与安全"
-	  echo -e "${gl_terynox}101. ${gl_bai}k命令高级用法 ${gl_huang}★${gl_bai}                    ${gl_terynox}102. ${gl_bai}卸载科技lion脚本"
+	  echo -e "${gl_terynox}101. ${gl_bai}k命令高级用法 ${gl_huang}★${gl_bai}                    ${gl_terynox}102. ${gl_bai}卸载terynox脚本"
 	  echo -e "${gl_terynox}------------------------"
 	  echo -e "${gl_terynox}0.   ${gl_bai}返回主菜单"
 	  echo -e "${gl_terynox}------------------------${gl_bai}"
@@ -14039,7 +14039,7 @@ EOF
 		  41)
 			clear
 			send_stats "留言板"
-			echo "访问科技lion官方留言板，您对脚本有任何想法欢迎留言交流！"
+			echo "访问terynox官方留言板，您对脚本有任何想法欢迎留言交流！"
 			echo "https://board.terynox.pro"
 			echo "公共密码: terynox.sh"
 			  ;;
@@ -14191,8 +14191,8 @@ EOF
 
 		  102)
 			  clear
-			  send_stats "卸载科技lion脚本"
-			  echo "卸载科技lion脚本"
+			  send_stats "卸载terynox脚本"
+			  echo "卸载terynox脚本"
 			  echo "------------------------------------------------"
 			  echo "将彻底卸载terynox脚本，不影响你其他功能"
 			  read -e -p "确定继续吗？(Y/N): " choice
@@ -14503,7 +14503,7 @@ while true; do
 	  echo -e "${gl_terynox}4.  ${gl_bai}备份集群                 ${gl_terynox}5.  ${gl_bai}还原集群"
 	  echo -e "${gl_terynox}------------------------${gl_bai}"
 	  echo -e "${gl_terynox}批量执行任务${gl_bai}"
-	  echo -e "${gl_terynox}11. ${gl_bai}安装科技lion脚本         ${gl_terynox}12. ${gl_bai}更新系统              ${gl_terynox}13. ${gl_bai}清理系统"
+	  echo -e "${gl_terynox}11. ${gl_bai}安装terynox脚本         ${gl_terynox}12. ${gl_bai}更新系统              ${gl_terynox}13. ${gl_bai}清理系统"
 	  echo -e "${gl_terynox}14. ${gl_bai}安装docker               ${gl_terynox}15. ${gl_bai}安装BBR3              ${gl_terynox}16. ${gl_bai}设置1G虚拟内存"
 	  echo -e "${gl_terynox}17. ${gl_bai}设置时区到上海           ${gl_terynox}18. ${gl_bai}开放所有端口	       ${gl_terynox}51. ${gl_bai}自定义指令"
 	  echo -e "${gl_terynox}------------------------${gl_bai}"
@@ -14632,7 +14632,7 @@ echo -e "${gl_lan}GNAME 8.8刀首年COM域名 6.68刀首年CC域名${gl_bai}"
 echo -e "${gl_bai}网址: https://www.gname.com/register?tt=86836&ttcode=terynox86836&ttbj=sh${gl_bai}"
 echo "------------------------"
 echo ""
-echo -e "科技lion周边"
+echo -e "terynox周边"
 echo "------------------------"
 echo -e "${gl_terynox}B站: ${gl_bai}https://b23.tv/2mqnQyh              ${gl_terynox}油管: ${gl_bai}https://www.youtube.com/@terynox${gl_bai}"
 echo -e "${gl_terynox}官网: ${gl_bai}https://terynox.pro/              ${gl_terynox}导航: ${gl_bai}https://dh.terynox.pro/${gl_bai}"
@@ -14803,10 +14803,7 @@ terynox_sh() {
 while true; do
 clear
 echo -e "${gl_terynox}"
-echo "╦╔═╔═╗ ╦╦╦  ╦╔═╗╔╗╔ ╔═╗╦ ╦"
-echo "╠╩╗║╣  ║║║  ║║ ║║║║ ╚═╗╠═╣"
-echo "╩ ╩╚═╝╚╝╩╩═╝╩╚═╝╝╚╝o╚═╝╩ ╩"
-echo -e "科技lion脚本工具箱 v$sh_v"
+echo -e "terynox脚本工具箱 v$sh_v"
 echo -e "命令行输入${gl_huang}k${gl_terynox}可快速启动脚本${gl_bai}"
 echo -e "${gl_terynox}------------------------${gl_bai}"
 echo -e "${gl_terynox}1.   ${gl_bai}系统信息查询"
